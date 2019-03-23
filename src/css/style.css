@@ -1,0 +1,23 @@
+.div__main-byself {
+    border: 1px solid black;
+    position: absolute;
+    top: 100px;
+    left: 350px;
+    width: 100px;
+    text-align: center;
+}
+.div__field {
+    border: 1px solid blue;
+    width: 80px;
+    text-align: center;
+}
+#commondiv_group {
+    background-color: azure;
+    height: 300px
+}
+
+.div__fields {
+    position:absolute;
+    top: 150px;
+    left: 360px;
+}

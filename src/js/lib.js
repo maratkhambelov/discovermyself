@@ -31,6 +31,9 @@ export class FieldList {
     addcoord(item, coordx, coordy){
         this.storage.addcoord(item, coordx, coordy);
     }
+    removebyname(namefield) {
+        this.storage.removebyname(namefield)
+    }
 
 }
 

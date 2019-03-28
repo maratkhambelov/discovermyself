@@ -14,13 +14,21 @@ export class LocalStorage {
     addtask(namefield, item) {
         const index = this.items.findIndex(item => item.name === namefield);
         if (index !== -1) {
-            console.log(index)
             this.items[index].fieldtasks.push(item);
         }
         this.save()
     }
     remove(item) {
         const index = this.items.indexOf(item);
+        if (index !== -1) {
+            this.items.splice(index, 1);
+        }
+        this.save();
+    }
+    removebyname(namefield) {
+        console.log(namefield)
+        const index = this.items.findIndex(item => item.name === namefield);
+        console.log(index)
         if (index !== -1) {
             this.items.splice(index, 1);
         }

@@ -1,12 +1,11 @@
-body {
-    max-width: 800px;
-}
+/*body {*/
+/*    max-width: 800px;*/
+/*}*/
 
 .div__main-byself {
     border: 1px solid black;
-    position: absolute;
-    top: 100px;
-    left: 350px;
+    top: 200px;
+    left: 120px;
     width: 100px;
     text-align: center;
 }
@@ -16,31 +15,27 @@ body {
     text-align: center;
     margin: 5px
 }
-#commondiv_group {
-    background-color: azure;
-    height: 300px;
+/*#commondiv_group {*/
+/*    background-color: azure;*/
+/*    height: 300px;*/
+/*}*/
 
-}
+/*.div__fields {*/
 
-.div__fields {
-    position:absolute;
-    top: 150px;
-    left: 360px;
-}
+/*}*/
 
 .window {
     position: fixed; /* относительно видимого окна */
 
     opacity: 0;
     width: 200px;
-    height: 100px;
+    min-height: 100px;
     border: 1px solid black;
     transition: all linear 1ms;
     top: 0;
     left: 0;
     right: 0;
     margin: 0 auto;
-    background-color: mediumslateblue;
 }
 
 .window.show {
@@ -51,3 +46,25 @@ body {
 .window__ul-list {
     list-style: none;
 }
+
+#removezone {
+    background-color: red;
+
+    top: 300px;
+    width: 300px;
+    height: 100px;
+}
+
+
+.window__ul-list {
+
+    margin:0;
+    padding:0
+}
+.window__li {
+
+    cursor:move;
+    display:block;
+    padding:20px 10px;
+    background:white;
+    border-bottom:solid 1px gray;}

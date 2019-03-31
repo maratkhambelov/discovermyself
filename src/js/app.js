@@ -6,6 +6,7 @@ const commonDivEl = document.querySelector('#commondiv_group');
 const nameFieldInput = document.querySelector('#name_field');
 const addBtnEl = document.querySelector('#addbtn');
 const divFields = document.querySelector('#div_fields');
+const changeModeEl = document.querySelector('#changemode')
 let draggable = null;
 let draggingLi = null;
 const removeZone = document.querySelector('#removezone');
@@ -23,8 +24,16 @@ nameFieldInput.addEventListener('keydown', (event) => {
 addBtnEl.addEventListener('click', (event) => {
     addField();
 });
+changeModeEl.addEventListener('click', (event) => {
+    if(moveMode === false ) {
+        moveMode = true
+    } else {
+        moveMode = false
+    }
+    console.log(moveMode)
+    rebuildTree(commonDivEl, fieldList)
 
-
+});
 
 function rebuildTree(container, list) {
 
@@ -32,22 +41,36 @@ function rebuildTree(container, list) {
     for (const item of list.items) {
         const itemEl = document.createElement('div');
         itemEl.className = "div__field"
-        itemEl.draggable = true;
 
 
         itemEl.innerHTML = `
         <span data-id="text">${item.name}</span>
-        <button data-id="remove" class="btn btn-danger btn-sm float-right">Rmv</button>`
+        <button data-id="remove" class="btn btn-danger btn-sm float-right">Rmv</button>
+        <div class="slider-wrapper">
+        <span id="ratingspan">${item.rating}</span>
+        <input data-id="indicrate" 
+        type="range"
+        min="0"
+        max="10"
+        step="0.5"
+        value="${item.rating}"></input>
+        </divslider-wrapper>`
 
+
+
+
+
+        // draggable for fields
 
 
         if(moveMode === true) {
-            itemEl.style.position = 'absolute';
-            itemEl.style.left = item.coordx;
-            itemEl.style.top = item.coordy;
+            itemEl.draggable = true;
+            console.dir(itemEl)
 
             itemEl.onmousedown = function(e) {
+                console.log(itemEl)
                 let coords = getCoords(itemEl);
+                console.log(coords)
                 let shiftX = e.pageX - coords.left;
                 let shiftY = e.pageY - coords.top;
                 moveAt(e);
@@ -67,9 +90,9 @@ function rebuildTree(container, list) {
                 itemEl.onmouseup = function () {
                     document.onmousemove = null;
                     itemEl.onmouseup = null;
-                    console.log(itemEl.style.left)
-                    console.log(itemEl.style.top)
-                    fieldList.addcoord(item, itemEl.style.left, itemEl.style.top)
+                    console.log(itemEl.style.x)
+                    console.log(itemEl.style.y)
+                    fieldList.addcoord(item, itemEl.style.x, itemEl.style.y)
 
                 }
                 itemEl.ondragstart = function() {
@@ -78,48 +101,64 @@ function rebuildTree(container, list) {
 
                 function getCoords(elem) {
                     let box = elem.getBoundingClientRect();
+                    console.log(box)
                     return {
-                        top: box.top + pageYOffset,
-                        left: box.left + pageXOffset
+                        x: box.x + pageYOffset,
+                        y: box.y + pageXOffset
                     };
                 }
 
             }
+            itemEl.addEventListener('dragstart', (event) => {
+                draggable = event.currentTarget;
+            });
+            itemEl.addEventListener('dragend', event => {
+                draggable = null;
+            });
+            commonDivEl.addEventListener('dragover', event => {
+                event.preventDefault();
+            });
+
+
+
+
+            removeZone.addEventListener('dragover', event => {
+                event.preventDefault();
+
+
+            });
+            removeZone.addEventListener('drop', event => {
+                event.preventDefault()
+                console.dir(draggable)
+                const nameField = draggable.firstElementChild.textContent
+                console.log(nameField)
+                fieldList.removebyname(nameField);
+                commonDivEl.removeChild(draggable)
+            });
         }
 
 
 
 
-
-
-        itemEl.addEventListener('dragstart', (event) => {
-            draggable = event.currentTarget;
+        const ratingIndEl = itemEl.querySelector('[data-id="indicrate"]');
+        console.log(ratingIndEl)
+        ratingIndEl.addEventListener('input', (event) => {
+            let changeRatingDOM =  setTimeout( () => {
+                const rating = ratingIndEl.value;
+                let ratingSpanEl = itemEl.querySelector('#ratingspan')
+                console.log(ratingSpanEl)
+                ratingSpanEl.textContent = rating
+                console.log('done')
+                fieldList.changerating(item, rating)
+                console.log(rating)
+            }, 150)
+            // setTimeout(changeRatingDOM(ratingSpanEl, rating), 5500)
         });
-        itemEl.addEventListener('dragend', event => {
-            draggable = null;
-        });
-        commonDivEl.addEventListener('dragover', event => {
-           event.preventDefault();
-        });
 
 
 
-
-        removeZone.addEventListener('dragover', event => {
-            event.preventDefault();
-
-
-        });
-        removeZone.addEventListener('drop', event => {
-            event.preventDefault()
-            console.dir(draggable)
-            const nameField = draggable.firstElementChild.textContent
-            console.log(nameField)
-            fieldList.removebyname(nameField);
-            commonDivEl.removeChild(draggable)
-        });
         const removeEl = itemEl.querySelector('[data-id=remove]');
-
+        removeEl.style.visibility = "hidden"; //УБРАЛ НА ВРЕМЯ
         removeEl.addEventListener('click', (event) =>{
             fieldList.remove(item);
             rebuildTree(container, list);
@@ -151,20 +190,29 @@ function rebuildTree(container, list) {
                 windowEl.parentElement.removeChild(windowEl);
             }
         })
+        const fieldToShowinTable = document.createElement('span')
         const spanFieldEl = itemEl.querySelector('[data-id="text"]')
-
         spanFieldEl.addEventListener('click', event => {
             if(showWindow !== true) {
+                fieldToShowinTable.innerHTML = ''
                 windowEl.classList.add('show');
+                fieldToShowinTable.textContent = event.currentTarget.textContent;
+                fieldToShowinTable.id = 'fieldtoshow'
                 showWindow = true;
                 document.body.appendChild(windowEl)
                 windowEl.appendChild(windowGroupEl)
                 windowGroupEl.appendChild(inputTaskEl);
                 windowGroupEl.appendChild(addTaskBtn)
+                windowGroupEl.appendChild(fieldToShowinTable)
+
                 windowGroupEl.appendChild(windowTaskListEl)
+
+                const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
+
+                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl, fieldToShowinTable) // возможно ошибка
                 addTaskBtn.addEventListener('click', event => {
-                    const taskNameEl = inputTaskEl.value;
                     const nameFieldEl = spanFieldEl.textContent
+                    const taskNameEl = inputTaskEl.value;
                     const taskEl = new FieldTask(taskNameEl);
                     fieldList.addtask(nameFieldEl, taskEl)
                     rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
@@ -172,17 +220,42 @@ function rebuildTree(container, list) {
                 });
             }
 
+
             //const inputTaskEl = windowEl.createElement()
 
         });
 
 
         // itemEl.classList.add('show');
+
         container.appendChild(itemEl)
+
+        if(item.coordx === 0 && item.coordy === 0) {
+            console.log(itemEl)
+            const itemElPosition = itemEl.getBoundingClientRect();
+            console.log(itemElPosition)
+            const itemElPosX = itemElPosition.x;
+            console.log(itemElPosX)
+            const itemElPosY = itemElPosition.y;
+            console.log(itemElPosY)
+
+            fieldList.addcoord(item, itemElPosX, itemElPosY)
+            console.dir(itemElPosition)
+        } else {
+            itemEl.style.x = item.coordx;
+            console.log(itemEl)
+            itemEl.style.y = item.coordy;
+        }
+
+
+
 
     }
 
 }
+
+//персобирает DOM дерево внутри модального окна
+
 function rebuildTreeWindow (container, list, namefield) {
     container.innerHTML = '';
     const index = list.storage.items.findIndex(item => item.name === namefield);
@@ -190,10 +263,18 @@ function rebuildTreeWindow (container, list, namefield) {
     ulTaskEl.className = "window__ul-list"
     container.appendChild(ulTaskEl);
     list.storage.items[index].fieldtasks.forEach(item => {
+        const nameFieldInWindow = document.createElement('span');
+        nameFieldInWindow.textContent = `${list.storage.items[index]}`
+
         const liTaskEl = document.createElement('li');
+        const indexOfTask =  list.storage.items[index]
         liTaskEl.innerHTML = `<span>${item.nametask}</span>`
         liTaskEl.className = 'window__li'
         liTaskEl.draggable = true;
+
+
+        // работа с dragNdrop внутри окна в ul
+
         document.addEventListener('dragstart', function(event) {
             let target = getLi(event.target);
             draggingLi = target;
@@ -210,7 +291,7 @@ function rebuildTreeWindow (container, list, namefield) {
                 target.style['border-bottom'] = 'dashed 4px blue';
                 target.style['border-top'] = '';
             } else {
-                target.style['border-top'] = 'dashed 4px blue';
+                target.style['border-top'] = 'dashed 4px red';
                 target.style['border-bottom'] = '';
             }
         });
@@ -224,30 +305,41 @@ function rebuildTreeWindow (container, list, namefield) {
             target.style['border-bottom'] = '';
             target.style['border-top'] = '';
         });
-        document.addEventListener('drop', function (event) {
-            event.preventDefault();
-            console.log(event.target)
-            let target = getLi(event.target);
+        document.addEventListener('drop', function (e) {
+            e.preventDefault();
+            let target = getLi(e.target);
+
             if( target.style['border-bottom'] !== '' ) {
                 target.style['border-bottom'] = '';
-                target.parentNode.insertBefore(draggingLi, event.target.nextSibling)
-            } else {
+                const nameFieldToShow = document.querySelector('#fieldtoshow')
+                console.log(nameFieldToShow.textContent)
+                console.log(draggingLi.textContent)
+                console.log(e.target.nextSibling.textContent)
+                //TODO: проверка if e.target.nextSibling != null
+                fieldList.childrenreplace(draggingLi.textContent, e.target.nextSibling.textContent, nameFieldToShow.textContent)
+                target.parentNode.insertBefore(draggingLi, e.target.nextSibling);
+            } else if( target.style['border-top'] !== '' ){
                 target.style['border-top'] = '';
-                target.parentNode.insertBefore(draggingLi, event.target);
+                const nameFieldToShow = document.querySelector('#fieldtoshow')
+                fieldList.childrenreplace(draggingLi.textContent, e.target.textContent, nameFieldToShow.textContent)
+                target.parentNode.insertBefore(draggingLi, e.target);
+
             }
         })
 
-        function getLi(target) {
-            while ( target.nodeName.toLowerCase() != 'li' && target.nodeName.toLowerCase() != 'body' ) {  //возможно ошибка
-                target = target.parentNode;
-            }
-            if ( target.nodeName.toLowerCase() == 'body' ) {
-                return false;
-            } else {
-                return target;
-            }
-        }
+function getLi(target) {
+    while ( target.nodeName.toLowerCase() != 'li' && target.nodeName.toLowerCase() != 'body' ) {  //возможно ошибка
+        target = target.parentNode;
+    }
+    if ( target.nodeName.toLowerCase() == 'body' ) {
+        return false;
+    } else {
+        return target;
+    }
+}
+
         ulTaskEl.appendChild(liTaskEl)
+
 
     })
 }
@@ -259,3 +351,142 @@ function addField() {
     nameFieldInput.value = '';
     rebuildTree(commonDivEl, fieldList)
 }
+
+
+
+
+
+
+//
+// liTaskEl.addEventListener('dragstart', function (e) {
+//     // debugger
+//     draggingLi = e.currentTarget;
+//     // e.dataTransfer.effectAllowed = 'move';
+//     e.dataTransfer.setData('text/html', this.outerHTML);
+//     console.log(e)
+//     this.classList.add('dragElem');
+//     console.log(draggingLi)
+//
+// });
+// liTaskEl.addEventListener('dragover', function (e) {
+//     e.preventDefault();
+//     // draggingLi.classList.add('over');
+//
+//     // e.dataTransfer.dropEffect = 'move';
+// });
+//
+// liTaskEl.addEventListener('dragleave', function (e) {
+//     // draggingLi.classList.remove('over');
+//
+// });
+//
+//
+// liTaskEl.addEventListener('drop', function (e) {
+//     if(draggingLi != this) {
+//         console.log(draggingLi)
+//
+//         let dropHtml = e.dataTransfer.getData('text/html'); //то что будешь бросать
+//         this.insertAdjacentHTML('beforebegin', dropHtml); // вставить элемент, на который бросает
+//         // перед HTML элементом, который бросается oldChild before newChild
+//         // this.parentNode.removeChild(
+//         // );
+//
+//
+//         // let dropElem = this.previousSibling; // предыдущий элемент, перед которым бросается
+//     }
+//     // this.classList.remove('over');
+// });
+// liTaskEl.addEventListener('dragend', function (e) {
+//     // this.classList.remove('over');
+// })
+
+
+// document.addEventListener('dragstart', function(event) {
+//     let target = getLi(event.target);
+//     draggingLi = target;
+//     draggingLi.style.opacity = "0.4"
+//     event.dataTransfer.setData('text/plain', null);
+//     // event.dataTransfer.setDragImage(self.dragging,0,0); //не знаю зачем это нужно
+// });
+// document.addEventListener('dragover', function (event) {
+//     event.preventDefault();
+//     let target = getLi(event.target);
+//     let bounding = target.getBoundingClientRect();
+//     let offset = bounding.y + (bounding.height/2);
+//     if( event.clientY - offset > 0 ) {
+//         target.style['border-bottom'] = 'dashed 4px blue';
+//         target.style['border-top'] = '';
+//     } else {
+//         target.style['border-top'] = 'dashed 4px blue';
+//         target.style['border-bottom'] = '';
+//     }
+// });
+// document.addEventListener('dragend', function (event) {
+//     let target = getLi(event.target);
+//     draggingLi.style.opacity = "1"
+// });
+// document.addEventListener('dragleave', function (event) {
+//
+//     let target = getLi(event.target);
+//     target.style['border-bottom'] = '';
+//     target.style['border-top'] = '';
+// });
+// document.addEventListener('drop', function (event) {
+//     event.preventDefault();
+//     console.log(event.target)
+//     let target = getLi(event.target);
+//     if( target.style['border-bottom'] !== '' ) {
+//         target.style['border-bottom'] = '';
+//         target.parentNode.insertBefore(draggingLi, event.target.nextSibling)
+//     } else {
+//         target.style['border-top'] = '';
+//         target.parentNode.insertBefore(draggingLi, event.target);
+//     }
+// })
+//
+// function getLi(target) {
+//     while ( target.nodeName.toLowerCase() != 'li' && target.nodeName.toLowerCase() != 'body' ) {  //возможно ошибка
+//         target = target.parentNode;
+//     }
+//     if ( target.nodeName.toLowerCase() == 'body' ) {
+//         return false;
+//     } else {
+//         return target;
+//     }
+// }
+
+
+
+/*
+liTaskEl.addEventListener('dragstart', (event) => {
+    draggingLi = event.currentTarget;
+});
+liTaskEl.addEventListener('dragend', event => {
+    draggingLi = null;
+});
+liTaskEl.addEventListener('dragover', event => {
+    event.preventDefault();
+    let bounding = draggingLi.getBoundingClientRect();
+    let offset = bounding.y + (bounding.height/2);
+    if( event.clientY - offset > 0 ) {
+        draggingLi.style['border-bottom'] = 'dashed 4px blue';
+        draggingLi.style['border-top'] = '';
+    } else {
+        draggingLi.style['border-top'] = 'dashed 4px blue';
+        draggingLi.style['border-bottom'] = '';
+    }
+});
+
+liTaskEl.addEventListener('drop', event => {
+    event.preventDefault();
+
+    const parent = event.currentTarget.parentElement;
+    const oldChild = event.currentTarget.nextElementSibling;
+    const newChild = draggingLi;
+    const oldChildSpan = draggingLi.nextElementSibling.querySelector('span');
+    const newChildSpan = newChild.querySelector('span');
+
+    parent.insertBefore(newChild, oldChild);
+    // taskList.childrenreplace(newChildSpan.textContent, oldChildSpan.textContent)
+})
+*/

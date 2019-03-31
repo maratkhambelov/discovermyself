@@ -3,8 +3,8 @@ export class Field {
         this.name = name;
         this.rating = 0;
         this.id = 0;
-        this.coordx = this.coordx;
-        this.coordy = this.coordy;
+        this.coordx = 0;
+        this.coordy = 0;
         this.fieldtasks = [];
 
     }
@@ -21,6 +21,10 @@ export class FieldList {
     add(item) {
         this.storage.add(item);
     }
+    changerating(obj, rating) {
+        this.storage.changerating(obj, rating);
+    }
+
     addtask(namefield, item) {
         this.storage.addtask(namefield, item)
     }
@@ -33,6 +37,9 @@ export class FieldList {
     }
     removebyname(namefield) {
         this.storage.removebyname(namefield)
+    }
+    childrenreplace(itemNew, itemOld, namefield) {
+        this.storage.childrenreplace(itemNew, itemOld, namefield)
     }
 
 }

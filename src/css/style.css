@@ -49,10 +49,9 @@
 
 #removezone {
     background-color: red;
-
-    top: 300px;
-    width: 300px;
-    height: 100px;
+    padding: 0px;
+    width: 50px;
+    height: 50px;
 }
 
 
@@ -67,4 +66,29 @@
     display:block;
     padding:20px 10px;
     background:white;
-    border-bottom:solid 1px gray;}
+    border-bottom:solid 1px gray;
+}
+
+.dragElem {
+    opacity: 0.4;
+}
+
+.over {
+/*//border: 2px dashed #000;*/
+    border-top: 2px solid blue;
+}
+
+
+.slider-wrapper {
+    display: inline-block;
+    width: 20px;
+    min-height: 100px;
+    padding: 0;
+}
+.slider-wrapper input {
+    width: 70px;
+    height: 20px;
+    margin: 0;
+    transform-origin: 40px 40px;
+    transform: rotate(-90deg);
+}

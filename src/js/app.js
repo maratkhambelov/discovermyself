@@ -148,6 +148,7 @@ function rebuildTree(container, list) {
         const removeEl = itemEl.querySelector('[data-id=remove]');
         removeEl.addEventListener('click', (event) =>{
             fieldList.remove(item);
+
             rebuildTree(container, list);
         });
 
@@ -237,7 +238,7 @@ function rebuildTree(container, list) {
             el.style.visibility = "hidden"
             removeEl.style.visibility = "hidden"; //УБРАЛ НА ВРЕМЯ
             // spanFieldEl.style.visibility = "hidden"
-
+            // spanFieldEl.white-space = "nowrap";
             itemEl.style.height= "50px";
             itemEl.style.width = "50px";
             // itemEl.draggable = true; // может быть ошибка

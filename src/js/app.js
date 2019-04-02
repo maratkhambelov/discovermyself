@@ -10,6 +10,7 @@ const changeModeEl = document.querySelector('#changemode')
 let draggable = null;
 let draggingLi = null;
 const removeZone = document.querySelector('#removezone');
+
 let moveMode = false;
 
 const fieldList = new FieldList(new LocalStorage());
@@ -38,10 +39,10 @@ changeModeEl.addEventListener('click', (event) => {
 function rebuildTree(container, list) {
 
     container.innerHTML = '';
+    const commonDivElinTree = document.querySelector('#commondiv_group');
     for (const item of list.items) {
         const itemEl = document.createElement('div');
         itemEl.className = "div__field"
-
 
         itemEl.innerHTML = `
         <span data-id="text">${item.name}</span>
@@ -57,91 +58,78 @@ function rebuildTree(container, list) {
         </divslider-wrapper>`
 
 
-
-
-
-        // draggable for fields
-
-
-        if(moveMode === true) {
-            itemEl.draggable = true;
-            console.dir(itemEl)
-
-            itemEl.onmousedown = function(e) {
-                console.log(itemEl)
-                let coords = getCoords(itemEl);
-                console.log(coords)
-                let shiftX = e.pageX - coords.left;
-                let shiftY = e.pageY - coords.top;
-                moveAt(e);
-                itemEl.style.position = 'absolute';
-                document.body.appendChild(itemEl);
-
-                // commonDivEl.appendChild(itemEl); // TODO: мб ошибка тут!
-                function moveAt (e) {
-                    itemEl.style.left = e.pageX - shiftX + 'px';
-                    itemEl.style.top = e.pageY - shiftY + 'px';
-
-                }
-                document.onmousemove = function (e) {
-
-                    moveAt(e);
-                }
-                itemEl.onmouseup = function () {
-                    document.onmousemove = null;
-                    itemEl.onmouseup = null;
-                    console.log(itemEl.style.x)
-                    console.log(itemEl.style.y)
-                    fieldList.addcoord(item, itemEl.style.x, itemEl.style.y)
-
-                }
-                itemEl.ondragstart = function() {
-                    return false;
-                };
-
-                function getCoords(elem) {
-                    let box = elem.getBoundingClientRect();
-                    console.log(box)
-                    return {
-                        x: box.x + pageYOffset,
-                        y: box.y + pageXOffset
-                    };
-                }
-
-            }
-            itemEl.addEventListener('dragstart', (event) => {
-                draggable = event.currentTarget;
-            });
-            itemEl.addEventListener('dragend', event => {
-                draggable = null;
-            });
-            commonDivEl.addEventListener('dragover', event => {
-                event.preventDefault();
-            });
+        itemEl.style.position = 'absolute';
+        itemEl.style.top = item.top;
+        itemEl.style.left = item.left;
 
 
 
 
-            removeZone.addEventListener('dragover', event => {
-                event.preventDefault();
+
+            // container.addEventListener('dragover', event => {
+            //     event.preventDefault();
+            // });
+            // container.addEventListener('drop', (event) => {
+            //    event.preventDefault();
+            //    draggable.parentNode.removeChild(draggable)
+            //    // const getCoords = e.dataTransfer.getData('html/plain')
+            //    //  draggable.style.y = dragItemCoords.y;
+            //    //  draggable.style.x = dragItemCoords.x;
+            // });
+
+            // itemEl.onmousedown = function(e) {
+            //     console.log(itemEl)
+            //     e.currentTarget.getBoundingClientRect();
+            //
+            //     let coords = getCoords(itemEl);
+            //     console.log(coords)
+            //     let shiftX = e.pageX - coords.x;
+            //     let shiftY = e.pageY - coords.y;
+            //     moveAt(e);
+            //     document.body.appendChild(itemEl);
+            // }
+            //     // commonDivEl.appendChild(itemEl); // TODO: мб ошибка тут!
+            //     function moveAt (e) {
+            //         itemEl.style.x = e.pageX - shiftX + 'px';
+            //         itemEl.style.y = e.pageY - shiftY + 'px';
+            //
+            //     }
+            //
+            //     document.onmousemove = function (e) {
+            //
+            //         moveAt(e);
+            //     }
+            //     itemEl.onmouseup = function () {
+            //         document.onmousemove = null;
+            //         itemEl.onmouseup = null;
+            //         console.log(itemEl.style.x)
+            //         console.log(itemEl.style.y)
+            //         fieldList.addcoord(item, itemEl.style.x, itemEl.style.y)
+            //
+            //     }
+                // itemEl.ondragstart = function() {
+                //     return false;
+                // };
+
+                // function getCoords(elem) {
+                //     let box = elem.getBoundingClientRect();
+                //     console.log(box)
+                //     return {
+                //         x: box.x,
+                //         y: box.y
+                //     };
+                // }
 
 
-            });
-            removeZone.addEventListener('drop', event => {
-                event.preventDefault()
-                console.dir(draggable)
-                const nameField = draggable.firstElementChild.textContent
-                console.log(nameField)
-                fieldList.removebyname(nameField);
-                commonDivEl.removeChild(draggable)
-            });
-        }
+
+
+
+        // }
 
 
 
 
         const ratingIndEl = itemEl.querySelector('[data-id="indicrate"]');
-        console.log(ratingIndEl)
         ratingIndEl.addEventListener('input', (event) => {
             let changeRatingDOM =  setTimeout( () => {
                 const rating = ratingIndEl.value;
@@ -158,7 +146,6 @@ function rebuildTree(container, list) {
 
 
         const removeEl = itemEl.querySelector('[data-id=remove]');
-        removeEl.style.visibility = "hidden"; //УБРАЛ НА ВРЕМЯ
         removeEl.addEventListener('click', (event) =>{
             fieldList.remove(item);
             rebuildTree(container, list);
@@ -192,8 +179,9 @@ function rebuildTree(container, list) {
         })
         const fieldToShowinTable = document.createElement('span')
         const spanFieldEl = itemEl.querySelector('[data-id="text"]')
-        spanFieldEl.addEventListener('click', event => {
-            if(showWindow !== true) {
+
+        spanFieldEl.addEventListener('  click', event => {
+            if(showWindow !== true && moveMode != true) {
                 fieldToShowinTable.innerHTML = ''
                 windowEl.classList.add('show');
                 fieldToShowinTable.textContent = event.currentTarget.textContent;
@@ -230,25 +218,96 @@ function rebuildTree(container, list) {
 
         container.appendChild(itemEl)
 
-        if(item.coordx === 0 && item.coordy === 0) {
-            console.log(itemEl)
-            const itemElPosition = itemEl.getBoundingClientRect();
-            console.log(itemElPosition)
-            const itemElPosX = itemElPosition.x;
-            console.log(itemElPosX)
-            const itemElPosY = itemElPosition.y;
-            console.log(itemElPosY)
+        // if(item.coordx === 0 && item.coordy === 0) {
+        //     const itemElPosition = itemEl.getBoundingClientRect();
+        //     const itemElPosX = itemElPosition.x;
+        //     const itemElPosY = itemElPosition.y;
+        //
+        //     fieldList.addcoord(item, itemElPosX, itemElPosY)
+        // } else {
+        //     itemEl.style.x = item.coordx;
+        //     itemEl.style.y = item.coordy;
+        // }
 
-            fieldList.addcoord(item, itemElPosX, itemElPosY)
-            console.dir(itemElPosition)
-        } else {
-            itemEl.style.x = item.coordx;
-            console.log(itemEl)
-            itemEl.style.y = item.coordy;
+
+
+        if(moveMode === true) {
+
+            const el = itemEl.querySelector('.slider-wrapper');
+            el.style.visibility = "hidden"
+            removeEl.style.visibility = "hidden"; //УБРАЛ НА ВРЕМЯ
+            // spanFieldEl.style.visibility = "hidden"
+
+            itemEl.style.height= "50px";
+            itemEl.style.width = "50px";
+            // itemEl.draggable = true; // может быть ошибка
+            itemEl.onmousedown = function (e) {
+
+                let draggableField = e.currentTarget
+                let coords = getCoords(draggableField);
+                let shiftX = e.pageX - coords.left;
+                let shiftY = e.pageY - coords.top;
+                draggableField.style.position = 'absolute';
+                // document.body.appendChild(draggableField)
+                moveAt(e);
+                draggableField.style.zIndex = 100;
+
+                function moveAt(event) {
+                    draggableField.style.left = event.pageX - shiftX + 'px';
+                    draggableField.style.top = event.pageY - shiftY + 'px';
+                }
+
+                document.onmousemove = function (e) {
+                    moveAt(e);
+                };
+
+                draggableField.onmouseup = function () {
+
+
+                    fieldList.addcoord(item, draggableField.style.left, draggableField.style.top)
+
+
+
+                    let coordsTrash = getCoords(removeZone);
+                    let coordField = getCoords(draggableField);
+                    console.log(coordsTrash)
+                    console.log(coordField)
+                    console.log(coordField.bottom)
+                    console.dir(removeZone)
+                    let widthTrash = coordsTrash.top + removeZone.style.width;
+                    console.log(widthTrash)
+                    let heightTrash = coordsTrash.left + removeZone.style.height;
+                    console.log(heightTrash)
+                    if(coordField.top > heightTrash && coordField.left > widthTrash) {
+                        commonDivEl.removeChild(draggableField);
+                        fieldList.remove(item);
+
+
+                    }
+                    document.onmousemove = null;
+                    draggableField.onmouseup = null
+
+                }
+
+                draggableField.ondragstart = function () {
+                    return false;
+                }
+
+            }
+
+
+            function getCoords(elem) {
+                let box = elem.getBoundingClientRect();
+
+                return {
+                    top: box.top + pageYOffset, //причина проблемы возможно
+                    left: box.left + pageXOffset
+                };
+            }
+
+
+
         }
-
-
-
 
     }
 
@@ -490,3 +549,84 @@ liTaskEl.addEventListener('drop', event => {
     // taskList.childrenreplace(newChildSpan.textContent, oldChildSpan.textContent)
 })
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let dragItemCoords = null;
+// itemEl.addEventListener('dragstart', (event) => {
+//     draggable = event.currentTarget;
+//
+// });
+//
+// itemEl.addEventListener('dragover', (event) => {
+//     event.preventDefault();
+//
+//
+// })
+// itemEl.addEventListener('dragend', event => {
+//
+//
+//     // let dragItemCoordsData = event.dataTransfer.setData('html/plain', dragItemCoords)
+//     // draggable = null;
+//     // fieldList.addcoord(item)
+//     //     itemEl.style.x, itemEl.style.y
+// });
+//
+// commonDivElinTree.addEventListener('dragover', event => {
+//     let dragItemCoords = event.currentTarget.getBoundingClientRect();
+//     console.log(dragItemCoords)
+//     event.preventDefault();
+// });
+// commonDivElinTree.addEventListener('drop', event => {
+//    event.preventDefault();
+// });
+
+
+
+
+
+
+
+
+
+
+// itemEl.addEventListener('dragstart', e => {
+//     draggable = e.currentTarget;
+//     console.log('dragstart')
+// });
+// document.addEventListener('dragover', e => {
+//     e.preventDefault();
+//     console.log('dragover')
+// })
+// itemEl.addEventListener('drop', e => {
+//     e.preventDefault();
+// })
+// itemEl.addEventListener('dragend', e => {
+//     draggable = null;
+// })
+// removeZone.addEventListener('dragover', event => {
+//     event.preventDefault();
+//     console.log(draggable)
+// });
+// removeZone.addEventListener('drop', event => {
+//     event.preventDefault()
+//
+//     console.dir(draggable)
+//     const nameField = draggable.firstElementChild.textContent
+//     console.log(nameField)
+//     fieldList.removebyname(nameField);
+//     commonDivEl.removeChild(draggable)
+// });

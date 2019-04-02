@@ -45,11 +45,11 @@ export class LocalStorage {
         }
         this.save();
     }
-    addcoord(item, coordx, coordy){
+    addcoord(item, left, top){
         const index = this.items.indexOf(item);
         if (index !== -1) {
-            this.items[index].coordx = coordx;
-            this.items[index].coordy = coordy;
+            this.items[index].left = left;
+            this.items[index].top = top;
         }
         this.save();
     }

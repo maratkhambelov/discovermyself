@@ -56,6 +56,7 @@
     background-color: red;
     width: 80px;
     height: 70px;
+    visibility: hidden;
 }
 
 

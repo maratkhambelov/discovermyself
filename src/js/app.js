@@ -28,8 +28,10 @@ addBtnEl.addEventListener('click', (event) => {
 changeModeEl.addEventListener('click', (event) => {
     if(moveMode === false ) {
         moveMode = true
+
     } else {
         moveMode = false
+        removeZone.style.visibility = "hidden"
     }
     console.log(moveMode)
     rebuildTree(commonDivEl, fieldList)
@@ -237,11 +239,10 @@ function rebuildTree(container, list) {
             const el = itemEl.querySelector('.slider-wrapper');
             el.style.visibility = "hidden"
             removeEl.style.visibility = "hidden"; //УБРАЛ НА ВРЕМЯ
-            // spanFieldEl.style.visibility = "hidden"
-            // spanFieldEl.white-space = "nowrap";
+            removeZone.style.visibility = "visible"
             itemEl.style.height= "50px";
             itemEl.style.width = "50px";
-            // itemEl.draggable = true; // может быть ошибка
+
             itemEl.onmousedown = function (e) {
 
                 let draggableField = e.currentTarget

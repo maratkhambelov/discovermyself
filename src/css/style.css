@@ -1,34 +1,81 @@
-/*body {*/
-/*    max-width: 800px;*/
-/*}*/
-
 .div__main-byself {
+    /*position: relative;*/
+    /*top: 170px;*/
+    /*left: 500px;*/
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     border: 1px solid black;
-    top: 200px;
-    left: 120px;
-    width: 100px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
+.span__self_title {
+}
+.commondiv_group {
+
+}
+
 .div__field {
-    height: 150px;
+
+    height: 170px;
+    width: 170px;
+    /*margin: 5px;*/
+    /*text-align: center;*/
     border: 1px solid blue;
-    width: 120px;
-    text-align: center;
-    margin: 5px;
-    word-wrap: break-word;
+
+    /*word-wrap: break-word;*/
+    border-radius: 90%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+
+
 }
-/*#commondiv_group {*/
-/*    background-color: azure;*/
-/*    height: 300px;*/
-/*}*/
+.slider-wrapper {
+    /*width: 20px;*/
+    /*min-height: 100px;*/
+    /*padding: 0;*/
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    /*flex-direction: column;*/
 
-/*.div__fields {*/
+}
 
-/*}*/
+.span__title {
+    /*align-self: flex-start;*/
+
+}
+
+.span__rating {
+    /*align-self: flex-start;*/
+}
+
+.btn__remove {
+    /*margin: 0 5px 15px 0;*/
+    border-radius: 50%;
+    /*align-self: flex-end;*/
+}
+
+
+
+.input__range-indic {
+    width: 65px;
+    height: 20px;
+    margin: 35px 0;
+    transform-origin: 0px 0px 0px 0px;
+    transform: rotate(-90deg);
+
+    /*align-self: center;*/
+}
+
 
 .window {
-    position: fixed; /* относительно видимого окна */
-
+    position: fixed;
     opacity: 0;
     width: 200px;
     min-height: 100px;
@@ -49,7 +96,7 @@
     list-style: none;
 }
 
-#removezone {
+.removezone {
     position: relative;
     top: 450px;
     left: 500px;
@@ -61,12 +108,10 @@
 
 
 .window__ul-list {
-
     margin:0;
-    padding:0
+    padding:0;
 }
 .window__li {
-
     cursor:move;
     display:block;
     padding:20px 10px;
@@ -79,21 +124,6 @@
 }
 
 .over {
-/*//border: 2px dashed #000;*/
     border-top: 2px solid blue;
 }
 
-
-.slider-wrapper {
-    display: inline-block;
-    width: 20px;
-    min-height: 100px;
-    padding: 0;
-}
-.slider-wrapper input {
-    width: 70px;
-    height: 20px;
-    margin: 0;
-    transform-origin: 40px 40px;
-    transform: rotate(-90deg);
-}

@@ -47,17 +47,20 @@ function rebuildTree(container, list) {
         itemEl.className = "div__field"
 
         itemEl.innerHTML = `
-        <span data-id="text">${item.name}</span>
-        <button data-id="remove" class="btn btn-danger btn-sm float-right">Rmv</button>
+        <span data-id="text" class="span__title">${item.name}</span>
+        
         <div class="slider-wrapper">
-        <span id="ratingspan">${item.rating}</span>
+        <span id="ratingspan" class="span__rating">${item.rating}</span>
         <input data-id="indicrate" 
+        class="input__range-indic"
         type="range"
         min="0"
         max="10"
         step="0.5"
         value="${item.rating}"></input>
-        </divslider-wrapper>`
+        </div>
+        
+        <button data-id="remove" class="btn__remove">X</button>`
 
 
         itemEl.style.position = 'absolute';
@@ -160,6 +163,7 @@ function rebuildTree(container, list) {
 
 
         const windowEl = document.createElement('div');
+        windowEl.id = "window_tasks"
         windowEl.className = 'window';
         const closeBtn = document.createElement('button');
         closeBtn.textContent = 'Close';
@@ -180,16 +184,21 @@ function rebuildTree(container, list) {
                 windowEl.parentElement.removeChild(windowEl);
             }
         })
+
         const fieldToShowinTable = document.createElement('span')
         const spanFieldEl = itemEl.querySelector('[data-id="text"]')
 
-        spanFieldEl.addEventListener('  click', event => {
+        spanFieldEl.addEventListener('click', event => {
+            const firstWindow = document.querySelector('#window_tasks');
+            if(document.body.contains(firstWindow)) {
+                document.body.removeChild(firstWindow)
+            }
             if(showWindow !== true && moveMode != true) {
                 fieldToShowinTable.innerHTML = ''
                 windowEl.classList.add('show');
                 fieldToShowinTable.textContent = event.currentTarget.textContent;
                 fieldToShowinTable.id = 'fieldtoshow'
-                showWindow = true;
+
                 document.body.appendChild(windowEl)
                 windowEl.appendChild(windowGroupEl)
                 windowGroupEl.appendChild(inputTaskEl);
@@ -207,33 +216,12 @@ function rebuildTree(container, list) {
                     const taskEl = new FieldTask(taskNameEl);
                     fieldList.addtask(nameFieldEl, taskEl)
                     rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
-
                 });
             }
 
-
-            //const inputTaskEl = windowEl.createElement()
-
         });
 
-
-        // itemEl.classList.add('show');
-
         container.appendChild(itemEl)
-
-        // if(item.coordx === 0 && item.coordy === 0) {
-        //     const itemElPosition = itemEl.getBoundingClientRect();
-        //     const itemElPosX = itemElPosition.x;
-        //     const itemElPosY = itemElPosition.y;
-        //
-        //     fieldList.addcoord(item, itemElPosX, itemElPosY)
-        // } else {
-        //     itemEl.style.x = item.coordx;
-        //     itemEl.style.y = item.coordy;
-        // }
-
-
-
         if(moveMode === true) {
 
             const el = itemEl.querySelector('.slider-wrapper');
@@ -250,7 +238,6 @@ function rebuildTree(container, list) {
                 let shiftX = e.pageX - coords.left;
                 let shiftY = e.pageY - coords.top;
                 draggableField.style.position = 'absolute';
-                // document.body.appendChild(draggableField)
                 moveAt(e);
                 draggableField.style.zIndex = 100;
 

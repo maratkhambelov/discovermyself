@@ -7,6 +7,7 @@ const nameFieldInput = document.querySelector('#name_field');
 const addBtnEl = document.querySelector('#addbtn');
 const divFields = document.querySelector('#div_fields');
 const changeModeEl = document.querySelector('#changemode')
+const header = document.querySelector('.header');
 let draggable = null;
 let draggingLi = null;
 const removeZone = document.querySelector('#removezone');

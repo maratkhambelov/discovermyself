@@ -1,3 +1,19 @@
+.body {
+    display: flex;
+}
+
+.header {
+    width: 1500px;
+    height: 90px;
+    background-color: aliceblue;
+    margin-top: -7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+
+}
+
 .div__main-byself {
     /*position: relative;*/
     /*top: 170px;*/
@@ -6,12 +22,13 @@
     height: 50px;
     border-radius: 50%;
     border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    /*justify-content: center;*/
+
 }
 
 .span__self_title {
+
+
 }
 .commondiv_group {
 

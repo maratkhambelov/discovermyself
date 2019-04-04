@@ -13,10 +13,7 @@ export class LocalStorage {
     }
     changerating(obj, rating) {
         const index = this.items.findIndex(item => item.name === obj.name);
-        console.log(obj)
-        console.log(obj.name)
-        console.log(index)
-        console.log(rating)
+
         if (index !== -1) {
             this.items[index].rating = rating;
         }

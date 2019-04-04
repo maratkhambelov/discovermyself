@@ -61,75 +61,11 @@ function rebuildTree(container, list) {
         </div>
         
         <button data-id="remove" class="btn__remove">X</button>`
-
+        ratingAddColor(item.rating, itemEl)
 
         itemEl.style.position = 'absolute';
         itemEl.style.top = item.top;
         itemEl.style.left = item.left;
-
-
-
-
-
-            // container.addEventListener('dragover', event => {
-            //     event.preventDefault();
-            // });
-            // container.addEventListener('drop', (event) => {
-            //    event.preventDefault();
-            //    draggable.parentNode.removeChild(draggable)
-            //    // const getCoords = e.dataTransfer.getData('html/plain')
-            //    //  draggable.style.y = dragItemCoords.y;
-            //    //  draggable.style.x = dragItemCoords.x;
-            // });
-
-            // itemEl.onmousedown = function(e) {
-            //     console.log(itemEl)
-            //     e.currentTarget.getBoundingClientRect();
-            //
-            //     let coords = getCoords(itemEl);
-            //     console.log(coords)
-            //     let shiftX = e.pageX - coords.x;
-            //     let shiftY = e.pageY - coords.y;
-            //     moveAt(e);
-            //     document.body.appendChild(itemEl);
-            // }
-            //     // commonDivEl.appendChild(itemEl); // TODO: мб ошибка тут!
-            //     function moveAt (e) {
-            //         itemEl.style.x = e.pageX - shiftX + 'px';
-            //         itemEl.style.y = e.pageY - shiftY + 'px';
-            //
-            //     }
-            //
-            //     document.onmousemove = function (e) {
-            //
-            //         moveAt(e);
-            //     }
-            //     itemEl.onmouseup = function () {
-            //         document.onmousemove = null;
-            //         itemEl.onmouseup = null;
-            //         console.log(itemEl.style.x)
-            //         console.log(itemEl.style.y)
-            //         fieldList.addcoord(item, itemEl.style.x, itemEl.style.y)
-            //
-            //     }
-                // itemEl.ondragstart = function() {
-                //     return false;
-                // };
-
-                // function getCoords(elem) {
-                //     let box = elem.getBoundingClientRect();
-                //     console.log(box)
-                //     return {
-                //         x: box.x,
-                //         y: box.y
-                //     };
-                // }
-
-
-
-
-
-        // }
 
 
 
@@ -139,12 +75,21 @@ function rebuildTree(container, list) {
             let changeRatingDOM =  setTimeout( () => {
                 const rating = ratingIndEl.value;
                 let ratingSpanEl = itemEl.querySelector('#ratingspan')
-                console.log(ratingSpanEl)
                 ratingSpanEl.textContent = rating
-                console.log('done')
                 fieldList.changerating(item, rating)
-                console.log(rating)
+
+                ratingAddColor(rating, itemEl);
+
+
+
+                // switch(parseInt(rating)) {
+                //     case rating < 10:
+                //         itemEl.style.backgroundColor = "#00a431";
+                //     case 5:
+                //         itemEl.style.backgroundColor = "#cef41c";
+                // }
             }, 150)
+
             // setTimeout(changeRatingDOM(ratingSpanEl, rating), 5500)
         });
 
@@ -400,6 +345,15 @@ function addField() {
     rebuildTree(commonDivEl, fieldList)
 }
 
+function ratingAddColor(rating, item) {
+    if(rating <= 10 && rating >= 6.5) {
+        item.style.backgroundColor = "#00a45a";
+    } else if (rating <= 6.5 && rating >= 4.0) {
+        item.style.backgroundColor = "#a4a35e";
+    } else if (rating <= 3.5 && rating >= 0) {
+        item.style.backgroundColor = "#a40f1d";
+    }
+}
 
 
 

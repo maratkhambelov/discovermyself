@@ -7,12 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 </head>
 <body>
 <div class="header">
-<input type="text" id="name_field">
-<button id="addbtn">Add</button>
-<button id="changemode">toDrag</button>
+    <div class="header__items">
+        <input type="text" id="name_field" class="header__input form-control" placeholder="Введите сферу жизни">
+<button id="addbtn" class="btn btn-outline-primary">Add</button>
+<button id="changemode" class="btn btn-outline-primary">toDrag</button>
+    </div>
 </div>
 <div class="content--main">
 <div id="div__byself" class="div__main-byself">
@@ -25,7 +28,7 @@
 
 </div>
     <div id="removezone" class="removezone">
-        <img src="img/trashcan.jpg"
+        <img src="img/delete.png"
              width="80" height="70" alt="lorem">
     </div>
 </div>

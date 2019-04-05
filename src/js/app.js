@@ -169,7 +169,7 @@ function rebuildTree(container, list) {
 
         container.appendChild(itemEl)
         if(moveMode === true) {
-
+            itemEl.style.cursor = "move"
             const el = itemEl.querySelector('.slider-wrapper');
             el.style.visibility = "hidden"
             removeEl.style.visibility = "hidden"; //УБРАЛ НА ВРЕМЯ

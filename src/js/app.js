@@ -34,7 +34,6 @@ changeModeEl.addEventListener('click', (event) => {
         moveMode = false
         removeZone.style.visibility = "hidden"
     }
-    console.log(moveMode)
     rebuildTree(commonDivEl, fieldList)
 
 });
@@ -201,23 +200,21 @@ function rebuildTree(container, list) {
 
                     fieldList.addcoord(item, draggableField.style.left, draggableField.style.top)
 
+                    const imgTrash = document.querySelector('.trashimg');
 
 
                     let coordsTrash = getCoords(removeZone);
                     let coordField = getCoords(draggableField);
-                    console.log(coordsTrash)
-                    console.log(coordField)
-                    console.log(coordField.bottom)
-                    console.dir(removeZone)
-                    let widthTrash = coordsTrash.top + removeZone.style.width;
-                    console.log(widthTrash)
-                    let heightTrash = coordsTrash.left + removeZone.style.height;
-                    console.log(heightTrash)
-                    if(coordField.top > heightTrash && coordField.left > widthTrash) {
+
+
+                    let widthTrashMax = coordsTrash.top + imgTrash.width;
+                    let heightTrashMax = coordsTrash.left + imgTrash.height;
+                    let widthTrash = coordsTrash.top;
+                    let heightTrash = coordsTrash.left;
+
+                    if((coordField.top > widthTrash && coordField.left > heightTrash) && (coordField.top < widthTrashMax && coordField.left < heightTrashMax)) {
                         commonDivEl.removeChild(draggableField);
                         fieldList.remove(item);
-
-
                     }
                     document.onmousemove = null;
                     draggableField.onmouseup = null

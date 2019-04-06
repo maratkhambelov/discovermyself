@@ -11,20 +11,31 @@
 </head>
 <body>
 <div class="header">
+    <div class="header__div-title">
+    <h3 class="header__h3-title">Рад приветстовать тебя на странице посвященной саморазвитию</h3>
+    <span class="header__span-title"> Здесь ты можешь выделить для себя главные сферы жизни и следить за их развитием.
+        <br>
+        <span> Также ты можешь определять для себя задачи, которые помогут тебе развить ту сферу, которая для тебя сейчас актуальна</span>
+
+    </span>
+    </div>
     <div class="header__items">
-        <input type="text" id="name_field" class="header__input form-control" placeholder="Введите сферу жизни">
-<button id="addbtn" class="btn btn-outline-primary">Add</button>
-<button id="changemode" class="btn btn-outline-primary">toDrag</button>
+        <div class="header__group-add">
+            <input type="text" id="name_field" class="header__input form-control" placeholder="Введите сферу жизни">
+            <button id="addbtn" class="btn header__btn-addfield btn-outline-primary btn-sm">Add</button>
+            <span class="header__span-info">Рад приветствовать тебя!</span>
+        </div>
+        <button id="changemode" class="btn header__btn-todrag btn-outline-primary btn-sm">toDrag</button>
     </div>
 </div>
 <div class="content--main">
-<div id="div__byself" class="div__main-byself">
-    <span class="span__self_title">I</span>
+<div id="div__byself" class="content__circle div__main-byself">
+    <span class="span__self_title">Me</span>
 </div>
 <div id="commondiv_group" class="commondiv_group">
 
-    <div class="div__fields" id="div_fields">
-    </div>
+<!--    <div id="div_fields" class="content__circle div__fields">-->
+<!--    </div>-->
 
 </div>
     <div id="removezone" class="removezone">

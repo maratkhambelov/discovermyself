@@ -10,6 +10,7 @@ const changeModeEl = document.querySelector('#changemode')
 const header = document.querySelector('.header');
 let draggable = null;
 let draggingLi = null;
+const headerSpanInfo = document.querySelector('.header__span-info');
 const removeZone = document.querySelector('#removezone');
 
 let moveMode = false;
@@ -44,11 +45,10 @@ function rebuildTree(container, list) {
     const commonDivElinTree = document.querySelector('#commondiv_group');
     for (const item of list.items) {
         const itemEl = document.createElement('div');
-        itemEl.className = "div__field"
-
+        itemEl.className = "div__field";
+        itemEl.classList.add('content__circle');
         itemEl.innerHTML = `
         <span data-id="text" class="span__title">${item.name}</span>
-        
         <div class="slider-wrapper">
         <span id="ratingspan" class="span__rating">${item.rating}</span>
         <input data-id="indicrate" 
@@ -59,9 +59,10 @@ function rebuildTree(container, list) {
         step="0.5"
         value="${item.rating}"></input>
         </div>
-        
         <button data-id="remove" class="btn__remove">X</button>`
         ratingAddColor(item.rating, itemEl)
+        const spanTitleEl = itemEl.querySelector('.span__title');
+
 
         itemEl.style.position = 'absolute';
         itemEl.style.top = item.top;
@@ -80,15 +81,7 @@ function rebuildTree(container, list) {
 
                 ratingAddColor(rating, itemEl);
 
-
-
-                // switch(parseInt(rating)) {
-                //     case rating < 10:
-                //         itemEl.style.backgroundColor = "#00a431";
-                //     case 5:
-                //         itemEl.style.backgroundColor = "#cef41c";
-                // }
-            }, 150)
+            }, 85)
 
             // setTimeout(changeRatingDOM(ratingSpanEl, rating), 5500)
         });
@@ -99,6 +92,8 @@ function rebuildTree(container, list) {
             fieldList.remove(item);
 
             rebuildTree(container, list);
+        });
+        removeEl.addEventListener('pointerover', e => {
         });
 
         itemEl.addEventListener('click', (event) => {
@@ -111,7 +106,7 @@ function rebuildTree(container, list) {
         windowEl.className = 'window';
         const closeBtn = document.createElement('button');
         closeBtn.textContent = 'Close';
-        closeBtn.classList.add('closewindow', 'btn-primary', 'btn-sm');
+        closeBtn.classList.add('btn', 'closewindow', 'btn-primary', 'btn-sm');
         const inputTaskEl = document.createElement('input');
         inputTaskEl.classList.add('window__input-task')
         const windowTaskListEl = document.createElement('div')
@@ -120,12 +115,21 @@ function rebuildTree(container, list) {
         windowGroupEl.classList.add('window__wrap-items');
         const addTaskBtn = document.createElement('button')
         addTaskBtn.textContent = 'add'
-        addTaskBtn.classList.add('window__btn-addtask', 'btn-primary', 'btn-sm');
+        addTaskBtn.classList.add('btn', 'window__btn-addtask', 'btn-primary', 'btn-sm');
         closeBtn.addEventListener('click', (event) => {
             windowEl.classList.remove('show');
             showWindow = false;
-            windowEl.removeChild(windowGroupEl);
+            // windowEl.removeChild(windowGroupEl); // убрал, так как оно вроде не используется
         });
+        document.body.addEventListener('keydown', (event) => {
+            if(event.key === 'Escape') {
+                windowEl.classList.remove('show');
+                showWindow = false;
+                // windowEl.removeChild(windowGroupEl); // убрал, так как оно вроде не используется
+            }
+        });
+
+
         windowEl.appendChild(closeBtn);
         windowEl.addEventListener('transitionend', event => {
             if ((event.propertyName === 'opacity' && !windowEl.classList.contains('show'))
@@ -160,18 +164,34 @@ function rebuildTree(container, list) {
 
                 rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl, fieldNameWindow) // возможно ошибка
                 addTaskBtn.addEventListener('click', event => {
+                    addTask();
+                });
+                inputTaskEl.addEventListener('keydown', (event) => {
+                    if(event.key === 'Enter') {
+                        addTask();
+                    }
+                });
+                function addTask() {
                     const nameFieldEl = spanFieldEl.textContent
                     const taskNameEl = inputTaskEl.value;
                     const taskEl = new FieldTask(taskNameEl);
                     fieldList.addtask(nameFieldEl, taskEl)
                     rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
-                });
+                }
             }
 
         });
 
         container.appendChild(itemEl)
         if(moveMode === true) {
+
+            itemEl.style.wordBreak = "break-all"
+            spanTitleEl.style.fontSize = "0.8em"
+            spanTitleEl.style.textAlign = "center";
+            spanTitleEl.style.marginTop = "4px"
+            spanTitleEl.style.cursor = "move";
+            spanTitleEl.style.fontWeight = "bold";
+
             itemEl.style.cursor = "move"
             const el = itemEl.querySelector('.slider-wrapper');
             el.style.visibility = "hidden"
@@ -188,7 +208,6 @@ function rebuildTree(container, list) {
                 let shiftY = e.pageY - coords.top;
                 draggableField.style.position = 'absolute';
                 moveAt(e);
-                draggableField.style.zIndex = 15;
 
                 function moveAt(event) {
                     draggableField.style.left = event.pageX - shiftX + 'px';
@@ -273,6 +292,7 @@ function rebuildTreeWindow (container, list, namefield) {
             ulTaskEl.removeChild(liTaskEl)
         });
 
+
         liTaskEl.addEventListener('click', (event) => {
             console.log(liTaskEl)
         })
@@ -350,6 +370,7 @@ function getLi(target) {
 
     })
 }
+
 
 function addField() {
     const nameFieldEl = nameFieldInput.value;

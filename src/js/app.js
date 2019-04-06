@@ -163,21 +163,22 @@ function rebuildTree(container, list) {
                 const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
 
                 rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl, fieldNameWindow) // возможно ошибка
-                addTaskBtn.addEventListener('click', event => {
+
+            }
+            addTaskBtn.addEventListener('click', event => {
+                addTask();
+            });
+            inputTaskEl.addEventListener('keydown', (event) => {
+                if(event.key === 'Enter') {
                     addTask();
-                });
-                inputTaskEl.addEventListener('keydown', (event) => {
-                    if(event.key === 'Enter') {
-                        addTask();
-                    }
-                });
-                function addTask() {
-                    const nameFieldEl = spanFieldEl.textContent
-                    const taskNameEl = inputTaskEl.value;
-                    const taskEl = new FieldTask(taskNameEl);
-                    fieldList.addtask(nameFieldEl, taskEl)
-                    rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
                 }
+            });
+            function addTask() {
+                const nameFieldEl = spanFieldEl.textContent
+                const taskNameEl = inputTaskEl.value;
+                const taskEl = new FieldTask(taskNameEl);
+                fieldList.addtask(nameFieldEl, taskEl)
+                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
             }
 
         });

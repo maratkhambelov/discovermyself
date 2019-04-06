@@ -15,16 +15,18 @@
     margin-top: -7px;
     display: flex;
     align-items: center;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+    justify-content: center;
 }
 .header__items {
-    max-width: 360px;
+    min-width: 350px;
+    margin-left: 30px;
 }
 .header__group-add {
-    /*align-self: flex-start;*/
+
 }
 .header__input {
+
     margin-bottom: 10px;
 }
 .header__btn-addfield {
@@ -39,14 +41,16 @@
 .header__div-title {
     align-self: flex-start;
     line-height: 1;
+    max-width: 40%;
+    margin-left: -450px;
+    margin-top: 20px;
 }
 .header__h3-title {
-    margin-top: 10px;
-    margin-left: 10px;
-    font-size: 14px;
+    margin-left: 20px;
+    font-size: 17px;
 }
 .header__span-title {
-    font-size: 12px;
+    font-size: 13px;
 }
 .div__main-byself {
     width: 200px;

@@ -29,7 +29,7 @@
     position: absolute;
     top: 290px;
     left: 720px;
-    z-index: 100;
+    z-index: 10;
     background-color: green;
 }
 
@@ -142,25 +142,46 @@
 .window {
     position: fixed;
     opacity: 0;
-    width: 200px;
+    width: 500px;
     min-height: 100px;
+    max-height: 550px;
     border: 1px solid black;
     transition: all linear 1ms;
+    background-color: #d9eeff;
     top: 0;
     left: 0;
     right: 0;
     margin: 0 auto;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .window.show {
     opacity: 1;
     top: 50px;
 }
+.window__wrap-items {
+    width: 250px;
+    text-align: center;
+}
+.window__input-task {
+    width: 205px;
+}
+.window__wrap-ultasks {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 
 .window__ul-list {
     list-style: none;
+
 }
 
+.closewindow {
+    align-self: flex-end;
+}
 .removezone {
     position: relative;
     top: 450px;
@@ -177,12 +198,22 @@
     margin:0;
     padding:0;
 }
+
 .window__li {
     cursor:move;
-    display:block;
-    padding:20px 10px;
+    padding:7px;
     background:white;
     border-bottom:solid 1px gray;
+    border-left: solid 1px gray;
+    border-right: solid 1px gray;
+    display: flex;
+    justify-content: space-between;
+}
+.window__li:first-child {
+    border-top: 1px solid gray;
+}
+
+#fieldnamewindow {
 }
 
 .dragElem {
@@ -193,3 +224,5 @@
     border-top: 2px solid blue;
 }
 
+.btn__task-remove btn-outline-danger btn-sm {
+}

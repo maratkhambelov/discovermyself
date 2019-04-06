@@ -111,13 +111,16 @@ function rebuildTree(container, list) {
         windowEl.className = 'window';
         const closeBtn = document.createElement('button');
         closeBtn.textContent = 'Close';
-        closeBtn.classList.add('btn-primary', 'btn-sm');
+        closeBtn.classList.add('closewindow', 'btn-primary', 'btn-sm');
         const inputTaskEl = document.createElement('input');
+        inputTaskEl.classList.add('window__input-task')
         const windowTaskListEl = document.createElement('div')
+        windowTaskListEl.classList.add('window__wrap-ultasks')
         const windowGroupEl = document.createElement('div')
+        windowGroupEl.classList.add('window__wrap-items');
         const addTaskBtn = document.createElement('button')
         addTaskBtn.textContent = 'add'
-        addTaskBtn.classList.add('btn-primary', 'btn-sm');
+        addTaskBtn.classList.add('window__btn-addtask', 'btn-primary', 'btn-sm');
         closeBtn.addEventListener('click', (event) => {
             windowEl.classList.remove('show');
             showWindow = false;
@@ -131,7 +134,7 @@ function rebuildTree(container, list) {
             }
         })
 
-        const fieldToShowinTable = document.createElement('span')
+        const fieldNameWindow = document.createElement('span')
         const spanFieldEl = itemEl.querySelector('[data-id="text"]')
 
         spanFieldEl.addEventListener('click', event => {
@@ -140,22 +143,22 @@ function rebuildTree(container, list) {
                 document.body.removeChild(firstWindow)
             }
             if(showWindow !== true && moveMode != true) {
-                fieldToShowinTable.innerHTML = ''
+                fieldNameWindow.innerHTML = ''
                 windowEl.classList.add('show');
-                fieldToShowinTable.textContent = event.currentTarget.textContent;
-                fieldToShowinTable.id = 'fieldtoshow'
+                fieldNameWindow.textContent = event.currentTarget.textContent;
+                fieldNameWindow.id = 'fieldnamewindow'
 
                 document.body.appendChild(windowEl)
                 windowEl.appendChild(windowGroupEl)
                 windowGroupEl.appendChild(inputTaskEl);
                 windowGroupEl.appendChild(addTaskBtn)
-                windowGroupEl.appendChild(fieldToShowinTable)
+                windowGroupEl.appendChild(fieldNameWindow)
 
                 windowGroupEl.appendChild(windowTaskListEl)
 
                 const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
 
-                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl, fieldToShowinTable) // возможно ошибка
+                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl, fieldNameWindow) // возможно ошибка
                 addTaskBtn.addEventListener('click', event => {
                     const nameFieldEl = spanFieldEl.textContent
                     const taskNameEl = inputTaskEl.value;
@@ -185,7 +188,7 @@ function rebuildTree(container, list) {
                 let shiftY = e.pageY - coords.top;
                 draggableField.style.position = 'absolute';
                 moveAt(e);
-                draggableField.style.zIndex = 100;
+                draggableField.style.zIndex = 15;
 
                 function moveAt(event) {
                     draggableField.style.left = event.pageX - shiftX + 'px';
@@ -315,7 +318,7 @@ function rebuildTreeWindow (container, list, namefield) {
 
             if( target.style['border-bottom'] !== '' ) {
                 target.style['border-bottom'] = '';
-                const nameFieldToShow = document.querySelector('#fieldtoshow')
+                const nameFieldToShow = document.querySelector('#fieldnamewindow')
                 console.log(nameFieldToShow.textContent)
                 console.log(draggingLi.textContent)
                 console.log(e.target.nextSibling.textContent)

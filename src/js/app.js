@@ -94,7 +94,6 @@ function rebuildTree(container, list) {
         });
 
 
-
         const removeEl = itemEl.querySelector('[data-id=remove]');
         removeEl.addEventListener('click', (event) =>{
             fieldList.remove(item);
@@ -112,11 +111,13 @@ function rebuildTree(container, list) {
         windowEl.className = 'window';
         const closeBtn = document.createElement('button');
         closeBtn.textContent = 'Close';
+        closeBtn.classList.add('btn-primary', 'btn-sm');
         const inputTaskEl = document.createElement('input');
         const windowTaskListEl = document.createElement('div')
         const windowGroupEl = document.createElement('div')
         const addTaskBtn = document.createElement('button')
         addTaskBtn.textContent = 'add'
+        addTaskBtn.classList.add('btn-primary', 'btn-sm');
         closeBtn.addEventListener('click', (event) => {
             windowEl.classList.remove('show');
             showWindow = false;
@@ -253,13 +254,25 @@ function rebuildTreeWindow (container, list, namefield) {
     const ulTaskEl = document.createElement('ul');
     ulTaskEl.className = "window__ul-list"
     container.appendChild(ulTaskEl);
+
     list.storage.items[index].fieldtasks.forEach(item => {
         const nameFieldInWindow = document.createElement('span');
         nameFieldInWindow.textContent = `${list.storage.items[index]}`
-
         const liTaskEl = document.createElement('li');
-        const indexOfTask =  list.storage.items[index]
-        liTaskEl.innerHTML = `<span>${item.nametask}</span>`
+        console.log(index)
+        liTaskEl.innerHTML = `<span>${item.nametask}</span>
+         <button data-id="removetask" class="btn__task-remove btn-outline-danger btn-sm">X</button>`;
+
+        const removeTaskEl = liTaskEl.querySelector('[data-id=removetask]');
+        removeTaskEl.style.cursor = "pointer";
+        removeTaskEl.addEventListener('click', (event) =>{
+            fieldList.removetask(index, item);
+            ulTaskEl.removeChild(liTaskEl)
+        });
+
+        liTaskEl.addEventListener('click', (event) => {
+            console.log(liTaskEl)
+        })
         liTaskEl.className = 'window__li'
         liTaskEl.draggable = true;
 

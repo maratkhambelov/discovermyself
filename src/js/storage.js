@@ -26,6 +26,17 @@ export class LocalStorage {
         }
         this.save()
     }
+    removetask(indexfield, task) {
+        console.log(this.items)
+        console.log(indexfield);
+        console.log(task)
+        const taskList = this.items[indexfield].fieldtasks;
+        console.log(taskList)
+        const indexTask = this.items[indexfield].fieldtasks.findIndex(item => item.nametask === task.nametask)
+        taskList.splice(indexTask, 1);
+        console.log(taskList)
+        this.save();
+    }
     remove(item) {
         const index = this.items.indexOf(item);
         if (index !== -1) {

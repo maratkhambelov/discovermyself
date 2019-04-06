@@ -28,7 +28,9 @@ export class FieldList {
     addtask(namefield, item) {
         this.storage.addtask(namefield, item)
     }
-
+    removetask(indexfield, task) {
+        this.storage.removetask(indexfield, task);
+    }
     remove(item, coordx, coordy) {
         this.storage.remove(item);
     }

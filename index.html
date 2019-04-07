@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<body>
+<div class="header">
+    <div class="header__div-title">
+    <h3 class="header__h3-title">Рад приветстовать тебя на странице посвященной саморазвитию!</h3>
+    <span class="header__span-title"> Здесь ты можешь выделить для себя главные сферы жизни и следить за их развитием.
+        <br>
+        <span> Также ты можешь определять для себя задачи, которые помогут тебе развить ту сферу, которая для тебя сейчас актуальна</span>
+
+    </span>
+    </div>
+    <div class="header__items">
+        <div class="header__group-add">
+            <input type="text" id="name_field" class="header__input form-control" placeholder="Введите сферу жизни">
+            <button id="addbtn" class="btn header__btn-addfield btn-outline-primary btn-sm">Add</button>
+            <span class="header__span-info">Рад приветствовать тебя!</span>
+        </div>
+        <button id="changemode" class="btn header__btn-todrag btn-outline-primary btn-sm">toDrag</button>
+    </div>
+</div>
+<div class="content--main">
+<div id="div__byself" class="content__circle div__main-byself">
+    <span class="span__self_title">Me</span>
+</div>
+<div id="commondiv_group" class="commondiv_group">
+
+<!--    <div id="div_fields" class="content__circle div__fields">-->
+<!--    </div>-->
+
+</div>
+    <div id="removezone" class="removezone">
+        <img src="img/delete.png"
+             width="80" height="70" alt="trash" class="trashimg">
+    </div>
+</div>
+
+<script src="js/lib.js" type="module"></script>
+<script src="js/app.js" type="module"></script>
+</body>
+</html>

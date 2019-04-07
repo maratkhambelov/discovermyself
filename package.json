@@ -1,0 +1,34 @@
+{
+  "name": "discoverbyself",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "browser-sync start -s \"src\" -f \".\"",
+    "test": "jest",
+    "coverage": "jest --coverage"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maratkhambelov/discovermyself.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maratkhambelov/discovermyself/issues"
+  },
+  "homepage": "https://github.com/maratkhambelov/discovermyself#readme",
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "@babel/preset-env": "^7.4.3",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^24.7.1",
+    "browser-sync": "^2.26.3",
+    "jest": "^24.7.1"
+  }
+}

@@ -93,12 +93,6 @@ function rebuildTree(container, list) {
 
             rebuildTree(container, list);
         });
-        removeEl.addEventListener('pointerover', e => {
-        });
-
-        itemEl.addEventListener('click', (event) => {
-
-        })
 
 
         const windowEl = document.createElement('div');
@@ -155,7 +149,6 @@ function rebuildTree(container, list) {
                 fieldNameWindow.textContent = event.currentTarget.textContent;
                 fieldNameWindow.id = 'fieldnamewindow';
                 addTaskBtn.addEventListener('click', event => {
-                    debugger
                     const nameFieldEl = fieldNameWindow.textContent
                     const taskNameEl = inputTaskEl.value;
 
@@ -167,7 +160,7 @@ function rebuildTree(container, list) {
 
                     const taskEl = new FieldTask(taskNameEl);
                     fieldList.addtask(nameFieldEl, taskEl);
-                    // rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
+                    rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
                 });
 
                 document.body.appendChild(windowEl)
@@ -178,9 +171,9 @@ function rebuildTree(container, list) {
                 windowGroupEl.appendChild(fieldNameWindow)
 
                 windowGroupEl.appendChild(windowTaskListEl)
-                // const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
+                const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
 
-                // rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl) // возможно ошибка
+                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl) // возможно ошибка
 
 
 

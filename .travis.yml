@@ -3,7 +3,6 @@ node_js:
   - 10
 install:
   - npm i
-  - npm i codecov
 after_success:
   - npm run coverage && npx codecov
   - mkdir dist

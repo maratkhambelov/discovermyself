@@ -222,6 +222,7 @@ cursor: pointer;
 }
 .window__input-task {
     width: 205px;
+    margin-top: 5px;
 }
 .window__wrap-ultasks {
     margin-top: 10px;

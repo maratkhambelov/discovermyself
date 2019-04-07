@@ -38,7 +38,7 @@ changeModeEl.addEventListener('click', (event) => {
     rebuildTree(commonDivEl, fieldList)
 
 });
-
+// создание дерева для сфер жизни
 function rebuildTree(container, list) {
 
     container.innerHTML = '';
@@ -107,6 +107,9 @@ function rebuildTree(container, list) {
         const closeBtn = document.createElement('button');
         closeBtn.textContent = 'Close';
         closeBtn.classList.add('btn', 'closewindow', 'btn-primary', 'btn-sm');
+        const windowSpanInfo = document.createElement('span');
+        windowSpanInfo.classList.add('window__span-info');
+
         const inputTaskEl = document.createElement('input');
         inputTaskEl.classList.add('window__input-task')
         const windowTaskListEl = document.createElement('div')
@@ -150,36 +153,53 @@ function rebuildTree(container, list) {
                 fieldNameWindow.innerHTML = ''
                 windowEl.classList.add('show');
                 fieldNameWindow.textContent = event.currentTarget.textContent;
-                fieldNameWindow.id = 'fieldnamewindow'
+                fieldNameWindow.id = 'fieldnamewindow';
+                addTaskBtn.addEventListener('click', event => {
+                    debugger
+                    const nameFieldEl = fieldNameWindow.textContent
+                    const taskNameEl = inputTaskEl.value;
+
+                    if(taskNameEl === '') {
+                        windowSpanInfo.textContent = '';
+                        windowSpanInfo.textContent = 'Введите название задания';
+                        return;
+                    }
+
+                    const taskEl = new FieldTask(taskNameEl);
+                    fieldList.addtask(nameFieldEl, taskEl);
+                    // rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
+                });
 
                 document.body.appendChild(windowEl)
                 windowEl.appendChild(windowGroupEl)
+                windowGroupEl.appendChild(windowSpanInfo)
                 windowGroupEl.appendChild(inputTaskEl);
                 windowGroupEl.appendChild(addTaskBtn)
                 windowGroupEl.appendChild(fieldNameWindow)
 
                 windowGroupEl.appendChild(windowTaskListEl)
+                // const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
 
-                const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
+                // rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl) // возможно ошибка
 
-                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl, fieldNameWindow) // возможно ошибка
 
-            }
-            addTaskBtn.addEventListener('click', event => {
-                addTask();
-            });
-            inputTaskEl.addEventListener('keydown', (event) => {
-                if(event.key === 'Enter') {
-                    addTask();
+
+
+
+
+
+
+
                 }
-            });
-            function addTask() {
-                const nameFieldEl = spanFieldEl.textContent
-                const taskNameEl = inputTaskEl.value;
-                const taskEl = new FieldTask(taskNameEl);
-                fieldList.addtask(nameFieldEl, taskEl)
-                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
-            }
+
+            // inputTaskEl.addEventListener('keydown', (event) => {
+            //     if(event.key === 'Enter') {
+            //         addTask();
+            //     }
+            // });
+            // function addTask() {
+            //
+            // }
 
         });
 
@@ -236,7 +256,8 @@ function rebuildTree(container, list) {
                     let widthTrash = coordsTrash.top;
                     let heightTrash = coordsTrash.left;
 
-                    if((coordField.top > widthTrash && coordField.left > heightTrash) && (coordField.top < widthTrashMax && coordField.left < heightTrashMax)) {
+                    if((coordField.top > widthTrash && coordField.left > heightTrash)
+                        && (coordField.top < widthTrashMax && coordField.left < heightTrashMax)) {
                         commonDivEl.removeChild(draggableField);
                         fieldList.remove(item);
                     }
@@ -294,9 +315,6 @@ function rebuildTreeWindow (container, list, namefield) {
         });
 
 
-        liTaskEl.addEventListener('click', (event) => {
-            console.log(liTaskEl)
-        })
         liTaskEl.className = 'window__li'
         liTaskEl.draggable = true;
 
@@ -367,8 +385,6 @@ function getLi(target) {
 }
 
         ulTaskEl.appendChild(liTaskEl)
-
-
     })
 }
 
@@ -390,6 +406,21 @@ function ratingAddColor(rating, item) {
         item.style.backgroundColor = "#a40f1d";
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

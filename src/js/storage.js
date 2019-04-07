@@ -20,10 +20,16 @@ export class LocalStorage {
         this.save();
     }
     addtask(namefield, item) {
+        let time = 1;
+        console.log(time)
         const index = this.items.findIndex(item => item.name === namefield);
+        console.log(this.items[index])
+        console.log(item)
         if (index !== -1) {
             this.items[index].fieldtasks.push(item);
         }
+        console.log(this.items)
+
         this.save()
     }
     removetask(indexfield, task) {

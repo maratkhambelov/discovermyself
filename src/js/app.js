@@ -148,20 +148,21 @@ function rebuildTree(container, list) {
                 windowEl.classList.add('show');
                 fieldNameWindow.textContent = event.currentTarget.textContent;
                 fieldNameWindow.id = 'fieldnamewindow';
-                addTaskBtn.addEventListener('click', event => {
-                    const nameFieldEl = fieldNameWindow.textContent
-                    const taskNameEl = inputTaskEl.value;
-
-                    if(taskNameEl === '') {
-                        windowSpanInfo.textContent = '';
-                        windowSpanInfo.textContent = 'Введите название задания';
-                        return;
-                    }
-
-                    const taskEl = new FieldTask(taskNameEl);
-                    fieldList.addtask(nameFieldEl, taskEl);
-                    rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
-                });
+                // addTaskBtn.addEventListener('click', event => {
+                //     const nameFieldEl = fieldNameWindow.textContent
+                //     const taskNameEl = inputTaskEl.value;
+                //
+                //     if(taskNameEl === '') {
+                //         windowSpanInfo.textContent = '';
+                //         windowSpanInfo.textContent = 'Введите название задания';
+                //         return;
+                //     }
+                //
+                //     const taskEl = new FieldTask(taskNameEl);
+                //     fieldList.addtask(nameFieldEl, taskEl);
+                //     console.error(taskEl);
+                //     rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
+                // });
 
                 document.body.appendChild(windowEl)
                 windowEl.appendChild(windowGroupEl)
@@ -173,7 +174,7 @@ function rebuildTree(container, list) {
                 windowGroupEl.appendChild(windowTaskListEl)
                 const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
 
-                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl) // возможно ошибка
+                // rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl) // возможно ошибка
 
 
 
@@ -194,6 +195,22 @@ function rebuildTree(container, list) {
             //
             // }
 
+        });
+
+        addTaskBtn.addEventListener('click', event => {
+            const nameFieldEl = fieldNameWindow.textContent
+            const taskNameEl = inputTaskEl.value;
+
+            if(taskNameEl === '') {
+                windowSpanInfo.textContent = '';
+                windowSpanInfo.textContent = 'Введите название задания';
+                return;
+            }
+
+            const taskEl = new FieldTask(taskNameEl);
+            fieldList.addtask(nameFieldEl, taskEl);
+            console.error(taskEl);
+            rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
         });
 
         container.appendChild(itemEl)

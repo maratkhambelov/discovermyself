@@ -5,7 +5,7 @@ install:
   - npm i
 after_success:
   - mkdir dist
-  - cp -R src/index.html src/js dist
+  - cp -R src/index.html src/js src/css src/img dist
 deploy:
   provider: pages
   skip-cleanup: true

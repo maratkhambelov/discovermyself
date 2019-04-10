@@ -176,42 +176,37 @@ function rebuildTree(container, list) {
 
                 rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl) // возможно ошибка
 
-
-
-
-
-
-
-
-
                 }
 
-            // inputTaskEl.addEventListener('keydown', (event) => {
-            //     if(event.key === 'Enter') {
-            //         addTask();
-            //     }
-            // });
-            // function addTask() {
-            //
-            // }
+
 
         });
 
         addTaskBtn.addEventListener('click', event => {
             const nameFieldEl = fieldNameWindow.textContent
+            addTask();
+            rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl);
+            inputTaskEl.value = '';
+        });
+        inputTaskEl.addEventListener('keydown', (event) => {
+            if(event.key === 'Enter') {
+                const nameFieldEl = fieldNameWindow.textContent
+                addTask();
+                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl);
+                event.currentTarget.value = '';
+            }
+        });
+        function addTask() {
+            const nameFieldEl = fieldNameWindow.textContent
             const taskNameEl = inputTaskEl.value;
-
             if(taskNameEl === '') {
                 windowSpanInfo.textContent = '';
                 windowSpanInfo.textContent = 'Введите название задания';
                 return;
             }
-
             const taskEl = new FieldTask(taskNameEl);
             fieldList.addtask(nameFieldEl, taskEl);
-            console.error(taskEl);
-            rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
-        });
+        }
 
         container.appendChild(itemEl)
         if(moveMode === true) {

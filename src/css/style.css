@@ -30,7 +30,6 @@
     margin-bottom: 10px;
 }
 .header__btn-addfield {
-    max-width: 60px;
 }
 .header__btn-todrag {
     margin-top: 5px;
@@ -68,7 +67,7 @@
     top: 65px;
     left: 60px;
     font-size: 50px;
-    color: black;
+    color: white;
     font-family: KacstArt;
 }
 .span__self_title::after {
@@ -202,7 +201,7 @@ cursor: pointer;
     max-height: 550px;
     border: 1px solid black;
     transition: all linear 1ms;
-    background-color: #d9eeff;
+    background-color: ghostwhite;
     top: 0;
     left: 0;
     right: 0;
@@ -218,7 +217,7 @@ cursor: pointer;
     top: 50px;
 }
 .window__wrap-items {
-    width: 250px;
+    width: 300px;
     text-align: center;
 }
 .window__input-task {
@@ -285,6 +284,7 @@ cursor: pointer;
 }
 .content__circle {
     box-shadow: 0px 0px 10px black;
+    color: white;
 }
 .content__circle:hover {
     opacity: 0.8;
@@ -294,4 +294,8 @@ cursor: pointer;
 
 .btn:hover {
     cursor: pointer;
+}
+
+.window__btn-addtask {
+    margin-bottom: 1px;
 }

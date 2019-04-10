@@ -99,7 +99,7 @@ function rebuildTree(container, list) {
         windowEl.id = "window_tasks"
         windowEl.className = 'window';
         const closeBtn = document.createElement('button');
-        closeBtn.textContent = 'Close';
+        closeBtn.textContent = 'Закрыть';
         closeBtn.classList.add('btn', 'closewindow', 'btn-primary', 'btn-sm');
         const windowSpanInfo = document.createElement('span');
         windowSpanInfo.classList.add('window__span-info');
@@ -111,7 +111,7 @@ function rebuildTree(container, list) {
         const windowGroupEl = document.createElement('div')
         windowGroupEl.classList.add('window__wrap-items');
         const addTaskBtn = document.createElement('button')
-        addTaskBtn.textContent = 'add'
+        addTaskBtn.textContent = 'Добавить'
         addTaskBtn.classList.add('btn', 'window__btn-addtask', 'btn-primary', 'btn-sm');
         closeBtn.addEventListener('click', (event) => {
             windowEl.classList.remove('show');
@@ -174,7 +174,7 @@ function rebuildTree(container, list) {
                 windowGroupEl.appendChild(windowTaskListEl)
                 const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
 
-                // rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl) // возможно ошибка
+                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl) // возможно ошибка
 
 
 

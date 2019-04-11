@@ -111,8 +111,14 @@
 }
 
 .span__title {
-    margin-top: 10px;
-cursor: pointer;
+    width: 100px;
+    word-break: break-all;
+    text-align: center;
+    /*margin-top: 10px;*/
+    cursor: pointer;
+    position: relative;
+    top: 10px;
+
 }
 .span__title:hover {
     font-size: 17px;
@@ -120,12 +126,15 @@ cursor: pointer;
 }
 
 .span__rating {
-    /*align-self: flex-start;*/
-    margin-top: -5px;
+    position: relative;
+    top: 4px;
+    /*align-self    : flex-start;*/
+    /*margin-bottom: -7px;*/
     font-size: 14px;
 }
 
 .btn__remove {
+
     /*margin: 0 5px 15px 0;*/
     font-size: 11px;
     width: 24px;
@@ -140,7 +149,9 @@ cursor: pointer;
     0 2px 0 rgba(0,0,0,.1),
     inset 0 0 20px rgba(0,0,0,.1);
     border: 1px;
-    margin-bottom: 5px;
+    position: relative;
+    bottom: 5px;
+    /*margin-bottom: 5px;*/
     /*box-shadow: 1px 1px 2px yellow;*/
     /*align-self: flex-end;*/
     /*user-select: none;*/
@@ -160,7 +171,7 @@ cursor: pointer;
 
 
 .input__range-indic {
-    width: 65px;
+    width: 57px;
     height: 5px;
     margin: 35px 0;
     transform-origin: 0px 0px 0px 0px;
@@ -244,15 +255,15 @@ cursor: pointer;
     position: relative;
     top: 450px;
     left: 700px;
-    width: 80px;
-    height: 70px;
+    width: 110px;
+    height: 100px;
     visibility: hidden;
     background-color: rgba(255,0,0,0.7);
 
 }
 .trashimg {
     opacity: 1;
-    margin: 0 0 0 17px;
+    margin: 10px 0 0 22px;
 }
 
 .removezone:hover {
@@ -296,9 +307,10 @@ cursor: pointer;
 .content__circle {
     box-shadow: 0px 0px 10px black;
     color: white;
+    opacity: 0.8;
 }
 .content__circle:hover {
-    opacity: 0.8;
+    opacity: 1;
     box-shadow: 0px 0px 15px black;
     z-index: 19;
 }

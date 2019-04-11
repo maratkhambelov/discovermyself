@@ -8,7 +8,7 @@ export class LocalStorage {
         }
     }
     add(item) {
-        this.items.push(item); // в конец
+        this.items.push(item);
         this.save();
     }
     changerating(obj, rating) {

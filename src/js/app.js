@@ -49,6 +49,7 @@ changeModeEl.addEventListener('click', (event) => {
 function rebuildTree(container, list) {
 
     container.innerHTML = '';
+
     const commonDivElinTree = document.querySelector('#commondiv_group');
     for (const item of list.items) {
         const itemEl = document.createElement('div');
@@ -205,25 +206,36 @@ function rebuildTree(container, list) {
             }
         });
         function addTask() {
+
+
             const nameFieldEl = fieldNameWindow.textContent
             const taskNameEl = inputTaskEl.value;
             if(taskNameEl === '') {
-                windowSpanInfo.textContent = '';
+                // windowSpanInfo.textContent = '';
                 windowSpanInfo.textContent = 'Введите название задания';
                 return;
             }
             const taskEl = new FieldTask(taskNameEl);
-            fieldList.addtask(nameFieldEl, taskEl);
+            const indexField = fieldList.storage.items.findIndex(i => i.name === nameFieldEl);
+            console.log(fieldList.storage.items)
+            console.log(fieldList.storage.items[indexField].fieldtasks)
+            const uniqueItem = fieldList.storage.items[indexField].fieldtasks.find(i => i.nametask === taskNameEl);
+            console.log(uniqueItem)
+            if(uniqueItem === undefined) {
+                fieldList.addtask(nameFieldEl, taskEl);
+            } else {
+                windowSpanInfo.textContent = "Такая задача уже добавлена ранее"
+            }
         }
 
         container.appendChild(itemEl)
         if(moveMode === true) {
 
-            itemEl.style.wordBreak = "break-all"
-            spanTitleEl.style.fontSize = "0.8em"
-
+            spanTitleEl.style.fontSize = "0.9em"
+            spanTitleEl.style.width = "70px";
             spanTitleEl.style.textAlign = "center";
-            spanTitleEl.style.marginTop = "4px"
+            spanTitleEl.style.marginTop = "10px"
+            spanTitleEl.style.wordWrap = "break-word"
             spanTitleEl.style.cursor = "move";
             spanTitleEl.style.fontWeight = "bold";
 
@@ -232,8 +244,10 @@ function rebuildTree(container, list) {
             el.style.visibility = "hidden"
             removeEl.style.visibility = "hidden"; //УБРАЛ НА ВРЕМЯ
             removeZone.style.visibility = "visible"
-            itemEl.style.height= "50px";
-            itemEl.style.width = "50px";
+
+            itemEl.style.height= "90px";
+            itemEl.style.width = "90px";
+
 
             itemEl.onmousedown = function (e) {
 
@@ -404,10 +418,19 @@ function getLi(target) {
 
 
 function addField() {
+    const headerSpanInfo = document.querySelector('.header__span-info');
+    headerSpanInfo.textContent = '';
     const nameFieldElNoSubstr = nameFieldInput.value;
     const nameFieldEl = nameFieldElNoSubstr.substr(0,13)
     const field = new Field(nameFieldEl, 0);
-    fieldList.add(field);
+    const uniqueItem = fieldList.storage.items.find(i => i.name === nameFieldEl)
+    console.log(uniqueItem)
+    if(uniqueItem === undefined) {
+        fieldList.add(field);
+    } else {
+        headerSpanInfo.textContent = 'Такая сфера уже добавлена ранее'
+    }
+
     nameFieldInput.value = '';
     rebuildTree(commonDivEl, fieldList)
 }

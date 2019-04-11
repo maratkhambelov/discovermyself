@@ -28,12 +28,19 @@ addBtnEl.addEventListener('click', (event) => {
     addField();
 });
 changeModeEl.addEventListener('click', (event) => {
-    if(moveMode === false ) {
+    let btn = event.currentTarget ;
+    if(moveMode === false && btn.textContent === "Переместить") {
         moveMode = true
+        btn.textContent = "Отменить Перемещение"
+
 
     } else {
         moveMode = false
+        btn.textContent = "Переместить"
         removeZone.style.visibility = "hidden"
+
+
+
     }
     rebuildTree(commonDivEl, fieldList)
 
@@ -98,6 +105,7 @@ function rebuildTree(container, list) {
         const windowEl = document.createElement('div');
         windowEl.id = "window_tasks"
         windowEl.className = 'window';
+        windowEl.style.borderRadius = "1%";
         const closeBtn = document.createElement('button');
         closeBtn.textContent = 'Закрыть';
         closeBtn.classList.add('btn', 'closewindow', 'btn-primary', 'btn-sm');
@@ -213,6 +221,7 @@ function rebuildTree(container, list) {
 
             itemEl.style.wordBreak = "break-all"
             spanTitleEl.style.fontSize = "0.8em"
+
             spanTitleEl.style.textAlign = "center";
             spanTitleEl.style.marginTop = "4px"
             spanTitleEl.style.cursor = "move";
@@ -395,7 +404,8 @@ function getLi(target) {
 
 
 function addField() {
-    const nameFieldEl = nameFieldInput.value;
+    const nameFieldElNoSubstr = nameFieldInput.value;
+    const nameFieldEl = nameFieldElNoSubstr.substr(0,13)
     const field = new Field(nameFieldEl, 0);
     fieldList.add(field);
     nameFieldInput.value = '';

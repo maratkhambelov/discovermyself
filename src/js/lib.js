@@ -48,7 +48,9 @@ export class FieldList {
 }
 
 export class FieldTask{
-    constructor(nametask) {
+    constructor(nametask, done) {
         this.nametask = nametask;
+        this.done = false;
     }
+
 }

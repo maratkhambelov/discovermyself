@@ -23,7 +23,6 @@ nameFieldInput.addEventListener('keydown', (event) => {
         addField();
     }
 });
-
 addBtnEl.addEventListener('click', (event) => {
     addField();
 });
@@ -31,22 +30,17 @@ changeModeEl.addEventListener('click', (event) => {
     let btn = event.currentTarget ;
     if(moveMode === false && btn.textContent === "Переместить") {
         moveMode = true
-        btn.textContent = "Отменить Перемещение"
-
-
+        btn.textContent = "Отменить Перемещение";
     } else {
         moveMode = false
-        btn.textContent = "Переместить"
-        removeZone.style.visibility = "hidden"
-
-
-
+        btn.textContent = "Переместить";
+        removeZone.style.visibility = "hidden";
     }
     rebuildTree(commonDivEl, fieldList)
 
 });
 // создание дерева для сфер жизни
-function rebuildTree(container, list) {
+function rebuildTree(container, list, position) {
 
     container.innerHTML = '';
 
@@ -56,9 +50,9 @@ function rebuildTree(container, list) {
         itemEl.className = "div__field";
         itemEl.classList.add('content__circle');
         itemEl.innerHTML = `
+        <span id="ratingspan" class="span__rating">${item.rating}</span>
         <span data-id="text" class="span__title">${item.name}</span>
         <div class="slider-wrapper">
-        <span id="ratingspan" class="span__rating">${item.rating}</span>
         <input data-id="indicrate" 
         class="input__range-indic"
         type="range"
@@ -71,10 +65,16 @@ function rebuildTree(container, list) {
         ratingAddColor(item.rating, itemEl)
         const spanTitleEl = itemEl.querySelector('.span__title');
 
-
-        itemEl.style.position = 'absolute';
+        console.log(item.left)
         itemEl.style.top = item.top;
         itemEl.style.left = item.left;
+        console.log(itemEl.style.left)
+            if(item.top !== undefined || item.left !== undefined) {
+                itemEl.style.position = 'absolute';
+            }
+
+
+
 
 
 
@@ -206,8 +206,6 @@ function rebuildTree(container, list) {
             }
         });
         function addTask() {
-
-
             const nameFieldEl = fieldNameWindow.textContent
             const taskNameEl = inputTaskEl.value;
             if(taskNameEl === '') {
@@ -224,7 +222,7 @@ function rebuildTree(container, list) {
             if(uniqueItem === undefined) {
                 fieldList.addtask(nameFieldEl, taskEl);
             } else {
-                windowSpanInfo.textContent = "Такая задача уже добавлена ранее"
+                windowSpanInfo.textContent = "Такая задача уже добавлена ранее";
             }
         }
 
@@ -432,7 +430,7 @@ function addField() {
     }
 
     nameFieldInput.value = '';
-    rebuildTree(commonDivEl, fieldList)
+    rebuildTree(commonDivEl, fieldList, 'relative');
 }
 
 function ratingAddColor(rating, item) {

@@ -6,7 +6,7 @@ export class Field {
         this.coordx = 0;
         this.coordy = 0;
         this.fieldtasks = [];
-
+        this.new = true;
     }
 }
 export class FieldList {

@@ -304,9 +304,11 @@
     border-top: 2px solid blue;
 }
 
-.btn__task-remove {
+.task_btn {
     background-color: transparent;
+    cursor: pointer;
 }
+
 .content__circle {
     box-shadow: 0px 0px 10px black;
     color: white;
@@ -326,4 +328,7 @@
     margin-bottom: 3px;
     margin-left: 1px;
     height: 30px;
+}
+
+.task__group-btn {
 }

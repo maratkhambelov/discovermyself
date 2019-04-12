@@ -65,10 +65,8 @@ function rebuildTree(container, list, position) {
         ratingAddColor(item.rating, itemEl)
         const spanTitleEl = itemEl.querySelector('.span__title');
 
-        console.log(item.left)
         itemEl.style.top = item.top;
         itemEl.style.left = item.left;
-        console.log(itemEl.style.left)
             if(item.top !== undefined || item.left !== undefined) {
                 itemEl.style.position = 'absolute';
             }
@@ -331,15 +329,28 @@ function rebuildTreeWindow (container, list, namefield) {
         const liTaskEl = document.createElement('li');
         console.log(index)
         liTaskEl.innerHTML = `<span>${item.nametask}</span>
-         <button data-id="removetask" class="btn__task-remove btn-outline-danger btn-sm">X</button>`;
+         <div class="task__group-btn">
+         <button data-id="done" class="btn__task-done btn-outline-success btn-sm task_btn">Выполнено</button>
+         <button data-id="removetask" class="btn__task-remove btn-outline-danger btn-sm task_btn">X</button>
+         </div>`;
 
         const removeTaskEl = liTaskEl.querySelector('[data-id=removetask]');
-        removeTaskEl.style.cursor = "pointer";
         removeTaskEl.addEventListener('click', (event) =>{
             fieldList.removetask(index, item);
             ulTaskEl.removeChild(liTaskEl)
         });
+        const btnDone = liTaskEl.querySelector('[data-id=done]');
+        if(item.done === true) {
+            btnDone.style.visibility = 'hidden';
+            liTaskEl.style.backgroundColor = 'rgba(192,192,192, 0.2)';
+        }
+        btnDone.addEventListener('click', event => {
+            fieldList.changedone(index, item);
+            rebuildTree(commonDivEl, fieldList);
+            btnDone.style.visibility = 'hidden';
+            liTaskEl.style.backgroundColor = 'rgba(192,192,192, 0.2)';
 
+        });
 
         liTaskEl.className = 'window__li'
         liTaskEl.draggable = true;
@@ -419,6 +430,10 @@ function addField() {
     const headerSpanInfo = document.querySelector('.header__span-info');
     headerSpanInfo.textContent = '';
     const nameFieldElNoSubstr = nameFieldInput.value;
+    if(nameFieldElNoSubstr === '') {
+        headerSpanInfo.textContent = 'Введите название сферы';
+        return
+    }
     const nameFieldEl = nameFieldElNoSubstr.substr(0,13)
     const field = new Field(nameFieldEl, 0);
     const uniqueItem = fieldList.storage.items.find(i => i.name === nameFieldEl)

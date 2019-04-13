@@ -60,7 +60,7 @@
     top: 290px;
     left: 570px;
     z-index: 7;
-    background-color: green;
+    background-color: #4f7aa6;
 }
 
 .span__self_title {
@@ -337,7 +337,7 @@
 }
 .header__img-icon {
     position: absolute;
-    top: -100px;
+    top: -90px;
     left: 30px;
         /*margin-top: -135px;*/
         /*margin-left: -55px;*/

@@ -3,6 +3,7 @@ import {LocalStorage} from './storage.js';
 
 const divBySelfEl = document.querySelector('#div_byself');
 const commonDivEl = document.querySelector('#commondiv_group');
+const contentMain = document.querySelector('.content--main');
 const nameFieldInput = document.querySelector('#name_field');
 const addBtnEl = document.querySelector('#addbtn');
 const divFields = document.querySelector('#div_fields');
@@ -28,6 +29,17 @@ addBtnEl.addEventListener('click', (event) => {
 });
 changeModeEl.addEventListener('click', (event) => {
     let btn = event.currentTarget ;
+    toDrag(btn)
+    rebuildTree(commonDivEl, fieldList)
+
+});
+
+contentMain.addEventListener('dblclick', e => {
+        toDrag(changeModeEl)
+        rebuildTree(commonDivEl, fieldList);
+});
+
+function toDrag(btn) {
     if(moveMode === false && btn.textContent === "Переместить") {
         moveMode = true
         btn.textContent = "Отменить Перемещение";
@@ -36,9 +48,7 @@ changeModeEl.addEventListener('click', (event) => {
         btn.textContent = "Переместить";
         removeZone.style.visibility = "hidden";
     }
-    rebuildTree(commonDivEl, fieldList)
-
-});
+}
 // создание дерева для сфер жизни
 function rebuildTree(container, list, position) {
 
@@ -107,7 +117,7 @@ function rebuildTree(container, list, position) {
         windowEl.style.borderRadius = "1%";
         const closeBtn = document.createElement('button');
         closeBtn.textContent = 'Закрыть';
-        closeBtn.classList.add('btn', 'closewindow', 'btn-primary', 'btn-sm');
+        closeBtn.classList.add('btn', 'closewindow', 'btn-info', 'btn-sm');
         const windowSpanInfo = document.createElement('span');
         windowSpanInfo.classList.add('window__span-info');
 
@@ -119,7 +129,7 @@ function rebuildTree(container, list, position) {
         windowGroupEl.classList.add('window__wrap-items');
         const addTaskBtn = document.createElement('button')
         addTaskBtn.textContent = 'Добавить'
-        addTaskBtn.classList.add('btn', 'window__btn-addtask', 'btn-primary', 'btn-sm');
+        addTaskBtn.classList.add('btn', 'window__btn-addtask', 'btn-info', 'btn-sm');
         closeBtn.addEventListener('click', (event) => {
             windowEl.classList.remove('show');
             showWindow = false;
@@ -450,7 +460,7 @@ function addField() {
 
 function ratingAddColor(rating, item) {
     if(rating <= 10 && rating >= 6.5) {
-        item.style.backgroundColor = "#00ff11";
+        item.style.backgroundColor = "#20c829";
         item.style.color = "white"
 
     } else if (rating <= 6.5 && rating >= 4.0) {

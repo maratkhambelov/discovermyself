@@ -8,7 +8,7 @@ export class LocalStorage {
         }
     }
     add(item) {
-        this.items.push(item); // в конец
+        this.items.push(item);
         this.save();
     }
     changerating(obj, rating) {
@@ -42,6 +42,17 @@ export class LocalStorage {
         taskList.splice(indexTask, 1);
         console.log(taskList)
         this.save();
+    }
+    changedone(indexfield, task) {
+        const field = this.items[indexfield];
+        const taskList = this.items[indexfield].fieldtasks;
+        const indexTask = this.items[indexfield].fieldtasks.findIndex(item => item.nametask === task.nametask)
+        taskList[indexTask].done = true;
+        field.rating = parseFloat(field.rating) + 1.0;
+        if(field.rating >= 10) {
+            field.rating = 10;
+        }
+        this.save()
     }
     remove(item) {
         const index = this.items.indexOf(item);

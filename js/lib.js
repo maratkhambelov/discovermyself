@@ -3,10 +3,9 @@ export class Field {
         this.name = name;
         this.rating = 0;
         this.id = 0;
-        this.coordx = 0;
-        this.coordy = 0;
+        // this.coordx = 0;
+        // this.coordy = 0;
         this.fieldtasks = [];
-
     }
 }
 export class FieldList {
@@ -25,12 +24,16 @@ export class FieldList {
         this.storage.changerating(obj, rating);
     }
 
+
     addtask(namefield, item) {
         this.storage.addtask(namefield, item)
 
     }
     removetask(indexfield, task) {
         this.storage.removetask(indexfield, task);
+    }
+    changedone (indexfield, task) {
+        this.storage.changedone(indexfield, task)
     }
     remove(item, coordx, coordy) {
         this.storage.remove(item);
@@ -48,7 +51,9 @@ export class FieldList {
 }
 
 export class FieldTask{
-    constructor(nametask) {
+    constructor(nametask, done) {
         this.nametask = nametask;
+        this.done = false;
     }
+
 }

@@ -3,6 +3,7 @@ import {LocalStorage} from './storage.js';
 
 const divBySelfEl = document.querySelector('#div_byself');
 const commonDivEl = document.querySelector('#commondiv_group');
+const contentMain = document.querySelector('.content--main');
 const nameFieldInput = document.querySelector('#name_field');
 const addBtnEl = document.querySelector('#addbtn');
 const divFields = document.querySelector('#div_fields');
@@ -23,34 +24,45 @@ nameFieldInput.addEventListener('keydown', (event) => {
         addField();
     }
 });
-
 addBtnEl.addEventListener('click', (event) => {
     addField();
 });
 changeModeEl.addEventListener('click', (event) => {
-    if(moveMode === false ) {
-        moveMode = true
-
-    } else {
-        moveMode = false
-        removeZone.style.visibility = "hidden"
-    }
+    let btn = event.currentTarget ;
+    toDrag(btn)
     rebuildTree(commonDivEl, fieldList)
 
 });
+
+contentMain.addEventListener('dblclick', e => {
+        toDrag(changeModeEl)
+        rebuildTree(commonDivEl, fieldList);
+});
+
+function toDrag(btn) {
+    if(moveMode === false && btn.textContent === "Переместить") {
+        moveMode = true
+        btn.textContent = "Отменить Перемещение";
+    } else {
+        moveMode = false
+        btn.textContent = "Переместить";
+        removeZone.style.visibility = "hidden";
+    }
+}
 // создание дерева для сфер жизни
-function rebuildTree(container, list) {
+function rebuildTree(container, list, position) {
 
     container.innerHTML = '';
+
     const commonDivElinTree = document.querySelector('#commondiv_group');
     for (const item of list.items) {
         const itemEl = document.createElement('div');
         itemEl.className = "div__field";
         itemEl.classList.add('content__circle');
         itemEl.innerHTML = `
+        <span id="ratingspan" class="span__rating">${item.rating}</span>
         <span data-id="text" class="span__title">${item.name}</span>
         <div class="slider-wrapper">
-        <span id="ratingspan" class="span__rating">${item.rating}</span>
         <input data-id="indicrate" 
         class="input__range-indic"
         type="range"
@@ -63,10 +75,14 @@ function rebuildTree(container, list) {
         ratingAddColor(item.rating, itemEl)
         const spanTitleEl = itemEl.querySelector('.span__title');
 
-
-        itemEl.style.position = 'absolute';
         itemEl.style.top = item.top;
         itemEl.style.left = item.left;
+            if(item.top !== undefined || item.left !== undefined) {
+                itemEl.style.position = 'absolute';
+            }
+
+
+
 
 
 
@@ -98,9 +114,10 @@ function rebuildTree(container, list) {
         const windowEl = document.createElement('div');
         windowEl.id = "window_tasks"
         windowEl.className = 'window';
+        windowEl.style.borderRadius = "1%";
         const closeBtn = document.createElement('button');
-        closeBtn.textContent = 'Close';
-        closeBtn.classList.add('btn', 'closewindow', 'btn-primary', 'btn-sm');
+        closeBtn.textContent = 'Закрыть';
+        closeBtn.classList.add('btn', 'closewindow', 'btn-info', 'btn-sm');
         const windowSpanInfo = document.createElement('span');
         windowSpanInfo.classList.add('window__span-info');
 
@@ -111,8 +128,8 @@ function rebuildTree(container, list) {
         const windowGroupEl = document.createElement('div')
         windowGroupEl.classList.add('window__wrap-items');
         const addTaskBtn = document.createElement('button')
-        addTaskBtn.textContent = 'add'
-        addTaskBtn.classList.add('btn', 'window__btn-addtask', 'btn-primary', 'btn-sm');
+        addTaskBtn.textContent = 'Добавить'
+        addTaskBtn.classList.add('btn', 'window__btn-addtask', 'btn-info', 'btn-sm');
         closeBtn.addEventListener('click', (event) => {
             windowEl.classList.remove('show');
             showWindow = false;
@@ -148,20 +165,21 @@ function rebuildTree(container, list) {
                 windowEl.classList.add('show');
                 fieldNameWindow.textContent = event.currentTarget.textContent;
                 fieldNameWindow.id = 'fieldnamewindow';
-                addTaskBtn.addEventListener('click', event => {
-                    const nameFieldEl = fieldNameWindow.textContent
-                    const taskNameEl = inputTaskEl.value;
-
-                    if(taskNameEl === '') {
-                        windowSpanInfo.textContent = '';
-                        windowSpanInfo.textContent = 'Введите название задания';
-                        return;
-                    }
-
-                    const taskEl = new FieldTask(taskNameEl);
-                    fieldList.addtask(nameFieldEl, taskEl);
-                    rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
-                });
+                // addTaskBtn.addEventListener('click', event => {
+                //     const nameFieldEl = fieldNameWindow.textContent
+                //     const taskNameEl = inputTaskEl.value;
+                //
+                //     if(taskNameEl === '') {
+                //         windowSpanInfo.textContent = '';
+                //         windowSpanInfo.textContent = 'Введите название задания';
+                //         return;
+                //     }
+                //
+                //     const taskEl = new FieldTask(taskNameEl);
+                //     fieldList.addtask(nameFieldEl, taskEl);
+                //     console.error(taskEl);
+                //     rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
+                // });
 
                 document.body.appendChild(windowEl)
                 windowEl.appendChild(windowGroupEl)
@@ -175,34 +193,55 @@ function rebuildTree(container, list) {
 
                 rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl) // возможно ошибка
 
-
-
-
-
-
-
-
-
                 }
 
-            // inputTaskEl.addEventListener('keydown', (event) => {
-            //     if(event.key === 'Enter') {
-            //         addTask();
-            //     }
-            // });
-            // function addTask() {
-            //
-            // }
+
 
         });
+
+        addTaskBtn.addEventListener('click', event => {
+            const nameFieldEl = fieldNameWindow.textContent
+            addTask();
+            rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl);
+            inputTaskEl.value = '';
+        });
+        inputTaskEl.addEventListener('keydown', (event) => {
+            if(event.key === 'Enter') {
+                const nameFieldEl = fieldNameWindow.textContent
+                addTask();
+                rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl);
+                event.currentTarget.value = '';
+            }
+        });
+        function addTask() {
+            const nameFieldEl = fieldNameWindow.textContent
+            const taskNameEl = inputTaskEl.value;
+            if(taskNameEl === '') {
+                // windowSpanInfo.textContent = '';
+                windowSpanInfo.textContent = 'Введите название задания';
+                return;
+            }
+            const taskEl = new FieldTask(taskNameEl);
+            const indexField = fieldList.storage.items.findIndex(i => i.name === nameFieldEl);
+            console.log(fieldList.storage.items)
+            console.log(fieldList.storage.items[indexField].fieldtasks)
+            const uniqueItem = fieldList.storage.items[indexField].fieldtasks.find(i => i.nametask === taskNameEl);
+            console.log(uniqueItem)
+            if(uniqueItem === undefined) {
+                fieldList.addtask(nameFieldEl, taskEl);
+            } else {
+                windowSpanInfo.textContent = "Такая задача уже добавлена ранее";
+            }
+        }
 
         container.appendChild(itemEl)
         if(moveMode === true) {
 
-            itemEl.style.wordBreak = "break-all"
-            spanTitleEl.style.fontSize = "0.8em"
+            spanTitleEl.style.fontSize = "0.9em"
+            spanTitleEl.style.width = "70px";
             spanTitleEl.style.textAlign = "center";
-            spanTitleEl.style.marginTop = "4px"
+            spanTitleEl.style.marginTop = "10px"
+            spanTitleEl.style.wordWrap = "break-word"
             spanTitleEl.style.cursor = "move";
             spanTitleEl.style.fontWeight = "bold";
 
@@ -211,8 +250,10 @@ function rebuildTree(container, list) {
             el.style.visibility = "hidden"
             removeEl.style.visibility = "hidden"; //УБРАЛ НА ВРЕМЯ
             removeZone.style.visibility = "visible"
-            itemEl.style.height= "50px";
-            itemEl.style.width = "50px";
+
+            itemEl.style.height= "90px";
+            itemEl.style.width = "90px";
+
 
             itemEl.onmousedown = function (e) {
 
@@ -298,15 +339,28 @@ function rebuildTreeWindow (container, list, namefield) {
         const liTaskEl = document.createElement('li');
         console.log(index)
         liTaskEl.innerHTML = `<span>${item.nametask}</span>
-         <button data-id="removetask" class="btn__task-remove btn-outline-danger btn-sm">X</button>`;
+         <div class="task__group-btn">
+         <button data-id="done" class="btn__task-done btn-outline-success btn-sm task_btn">Выполнено</button>
+         <button data-id="removetask" class="btn__task-remove btn-outline-danger btn-sm task_btn">X</button>
+         </div>`;
 
         const removeTaskEl = liTaskEl.querySelector('[data-id=removetask]');
-        removeTaskEl.style.cursor = "pointer";
         removeTaskEl.addEventListener('click', (event) =>{
             fieldList.removetask(index, item);
             ulTaskEl.removeChild(liTaskEl)
         });
+        const btnDone = liTaskEl.querySelector('[data-id=done]');
+        if(item.done === true) {
+            btnDone.style.visibility = 'hidden';
+            liTaskEl.style.backgroundColor = 'rgba(192,192,192, 0.2)';
+        }
+        btnDone.addEventListener('click', event => {
+            fieldList.changedone(index, item);
+            rebuildTree(commonDivEl, fieldList);
+            btnDone.style.visibility = 'hidden';
+            liTaskEl.style.backgroundColor = 'rgba(192,192,192, 0.2)';
 
+        });
 
         liTaskEl.className = 'window__li'
         liTaskEl.draggable = true;
@@ -383,253 +437,38 @@ function getLi(target) {
 
 
 function addField() {
-    const nameFieldEl = nameFieldInput.value;
+    const headerSpanInfo = document.querySelector('.header__span-info');
+    headerSpanInfo.textContent = '';
+    const nameFieldElNoSubstr = nameFieldInput.value;
+    if(nameFieldElNoSubstr === '') {
+        headerSpanInfo.textContent = 'Введите название сферы';
+        return
+    }
+    const nameFieldEl = nameFieldElNoSubstr.substr(0,13)
     const field = new Field(nameFieldEl, 0);
-    fieldList.add(field);
+    const uniqueItem = fieldList.storage.items.find(i => i.name === nameFieldEl)
+    console.log(uniqueItem)
+    if(uniqueItem === undefined) {
+        fieldList.add(field);
+    } else {
+        headerSpanInfo.textContent = 'Такая сфера уже добавлена ранее'
+    }
+
     nameFieldInput.value = '';
-    rebuildTree(commonDivEl, fieldList)
+    rebuildTree(commonDivEl, fieldList, 'relative');
 }
 
 function ratingAddColor(rating, item) {
     if(rating <= 10 && rating >= 6.5) {
-        item.style.backgroundColor = "#00a45a";
+        item.style.backgroundColor = "#20c829";
+        item.style.color = "white"
+
     } else if (rating <= 6.5 && rating >= 4.0) {
-        item.style.backgroundColor = "#a4a35e";
+        item.style.backgroundColor = "#fffe3c";
+        item.style.color = "black"
     } else if (rating <= 3.5 && rating >= 0) {
         item.style.backgroundColor = "#a40f1d";
+        item.style.color = "white"
+
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// liTaskEl.addEventListener('dragstart', function (e) {
-//     // debugger
-//     draggingLi = e.currentTarget;
-//     // e.dataTransfer.effectAllowed = 'move';
-//     e.dataTransfer.setData('text/html', this.outerHTML);
-//     console.log(e)
-//     this.classList.add('dragElem');
-//     console.log(draggingLi)
-//
-// });
-// liTaskEl.addEventListener('dragover', function (e) {
-//     e.preventDefault();
-//     // draggingLi.classList.add('over');
-//
-//     // e.dataTransfer.dropEffect = 'move';
-// });
-//
-// liTaskEl.addEventListener('dragleave', function (e) {
-//     // draggingLi.classList.remove('over');
-//
-// });
-//
-//
-// liTaskEl.addEventListener('drop', function (e) {
-//     if(draggingLi != this) {
-//         console.log(draggingLi)
-//
-//         let dropHtml = e.dataTransfer.getData('text/html'); //то что будешь бросать
-//         this.insertAdjacentHTML('beforebegin', dropHtml); // вставить элемент, на который бросает
-//         // перед HTML элементом, который бросается oldChild before newChild
-//         // this.parentNode.removeChild(
-//         // );
-//
-//
-//         // let dropElem = this.previousSibling; // предыдущий элемент, перед которым бросается
-//     }
-//     // this.classList.remove('over');
-// });
-// liTaskEl.addEventListener('dragend', function (e) {
-//     // this.classList.remove('over');
-// })
-
-
-// document.addEventListener('dragstart', function(event) {
-//     let target = getLi(event.target);
-//     draggingLi = target;
-//     draggingLi.style.opacity = "0.4"
-//     event.dataTransfer.setData('text/plain', null);
-//     // event.dataTransfer.setDragImage(self.dragging,0,0); //не знаю зачем это нужно
-// });
-// document.addEventListener('dragover', function (event) {
-//     event.preventDefault();
-//     let target = getLi(event.target);
-//     let bounding = target.getBoundingClientRect();
-//     let offset = bounding.y + (bounding.height/2);
-//     if( event.clientY - offset > 0 ) {
-//         target.style['border-bottom'] = 'dashed 4px blue';
-//         target.style['border-top'] = '';
-//     } else {
-//         target.style['border-top'] = 'dashed 4px blue';
-//         target.style['border-bottom'] = '';
-//     }
-// });
-// document.addEventListener('dragend', function (event) {
-//     let target = getLi(event.target);
-//     draggingLi.style.opacity = "1"
-// });
-// document.addEventListener('dragleave', function (event) {
-//
-//     let target = getLi(event.target);
-//     target.style['border-bottom'] = '';
-//     target.style['border-top'] = '';
-// });
-// document.addEventListener('drop', function (event) {
-//     event.preventDefault();
-//     console.log(event.target)
-//     let target = getLi(event.target);
-//     if( target.style['border-bottom'] !== '' ) {
-//         target.style['border-bottom'] = '';
-//         target.parentNode.insertBefore(draggingLi, event.target.nextSibling)
-//     } else {
-//         target.style['border-top'] = '';
-//         target.parentNode.insertBefore(draggingLi, event.target);
-//     }
-// })
-//
-// function getLi(target) {
-//     while ( target.nodeName.toLowerCase() != 'li' && target.nodeName.toLowerCase() != 'body' ) {  //возможно ошибка
-//         target = target.parentNode;
-//     }
-//     if ( target.nodeName.toLowerCase() == 'body' ) {
-//         return false;
-//     } else {
-//         return target;
-//     }
-// }
-
-
-
-/*
-liTaskEl.addEventListener('dragstart', (event) => {
-    draggingLi = event.currentTarget;
-});
-liTaskEl.addEventListener('dragend', event => {
-    draggingLi = null;
-});
-liTaskEl.addEventListener('dragover', event => {
-    event.preventDefault();
-    let bounding = draggingLi.getBoundingClientRect();
-    let offset = bounding.y + (bounding.height/2);
-    if( event.clientY - offset > 0 ) {
-        draggingLi.style['border-bottom'] = 'dashed 4px blue';
-        draggingLi.style['border-top'] = '';
-    } else {
-        draggingLi.style['border-top'] = 'dashed 4px blue';
-        draggingLi.style['border-bottom'] = '';
-    }
-});
-
-liTaskEl.addEventListener('drop', event => {
-    event.preventDefault();
-
-    const parent = event.currentTarget.parentElement;
-    const oldChild = event.currentTarget.nextElementSibling;
-    const newChild = draggingLi;
-    const oldChildSpan = draggingLi.nextElementSibling.querySelector('span');
-    const newChildSpan = newChild.querySelector('span');
-
-    parent.insertBefore(newChild, oldChild);
-    // taskList.childrenreplace(newChildSpan.textContent, oldChildSpan.textContent)
-})
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// let dragItemCoords = null;
-// itemEl.addEventListener('dragstart', (event) => {
-//     draggable = event.currentTarget;
-//
-// });
-//
-// itemEl.addEventListener('dragover', (event) => {
-//     event.preventDefault();
-//
-//
-// })
-// itemEl.addEventListener('dragend', event => {
-//
-//
-//     // let dragItemCoordsData = event.dataTransfer.setData('html/plain', dragItemCoords)
-//     // draggable = null;
-//     // fieldList.addcoord(item)
-//     //     itemEl.style.x, itemEl.style.y
-// });
-//
-// commonDivElinTree.addEventListener('dragover', event => {
-//     let dragItemCoords = event.currentTarget.getBoundingClientRect();
-//     console.log(dragItemCoords)
-//     event.preventDefault();
-// });
-// commonDivElinTree.addEventListener('drop', event => {
-//    event.preventDefault();
-// });
-
-
-
-
-
-
-
-
-
-
-// itemEl.addEventListener('dragstart', e => {
-//     draggable = e.currentTarget;
-//     console.log('dragstart')
-// });
-// document.addEventListener('dragover', e => {
-//     e.preventDefault();
-//     console.log('dragover')
-// })
-// itemEl.addEventListener('drop', e => {
-//     e.preventDefault();
-// })
-// itemEl.addEventListener('dragend', e => {
-//     draggable = null;
-// })
-// removeZone.addEventListener('dragover', event => {
-//     event.preventDefault();
-//     console.log(draggable)
-// });
-// removeZone.addEventListener('drop', event => {
-//     event.preventDefault()
-//
-//     console.dir(draggable)
-//     const nameField = draggable.firstElementChild.textContent
-//     console.log(nameField)
-//     fieldList.removebyname(nameField);
-//     commonDivEl.removeChild(draggable)
-// });

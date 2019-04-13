@@ -12,25 +12,22 @@
 <body>
 <div class="header">
     <div class="header__div-title">
-    <h3 class="header__h3-title">Рад приветстовать тебя на странице посвященной саморазвитию!</h3>
-    <span class="header__span-title"> Здесь ты можешь выделить для себя главные сферы жизни и следить за их развитием.
-        <br>
-        <span> Также ты можешь определять для себя задачи, которые помогут тебе развить ту сферу, которая для тебя сейчас актуальна</span>
-
-    </span>
+    <div class="header__icon">
+        <img width="200" height="200" src="img/SelfExplorer.png" class="header__img-icon">
+    </div>
     </div>
     <div class="header__items">
         <div class="header__group-add">
             <input type="text" id="name_field" class="header__input form-control" placeholder="Введите сферу жизни">
-            <button id="addbtn" class="btn header__btn-addfield btn-outline-primary btn-sm">Add</button>
-            <span class="header__span-info">Рад приветствовать тебя!</span>
+            <button id="addbtn" class="btn header__btn-addfield btn-outline-info btn-sm">Добавить</button>
+            <span class="header__span-info"></span>
         </div>
-        <button id="changemode" class="btn header__btn-todrag btn-outline-primary btn-sm">toDrag</button>
+        <button id="changemode" class="btn header__btn-todrag btn-outline-info btn-sm">Переместить</button>
     </div>
 </div>
 <div class="content--main">
 <div id="div__byself" class="content__circle div__main-byself">
-    <span class="span__self_title">Me</span>
+    <span class="span__self_title">Я</span>
 </div>
 <div id="commondiv_group" class="commondiv_group">
 
@@ -39,8 +36,8 @@
 
 </div>
     <div id="removezone" class="removezone">
-        <img src="img/delete.png"
-             width="80" height="70" alt="trash" class="trashimg">
+        <img src="img/trashcan1.png"
+             width="65" height="85" alt="trash" class="trashimg">
     </div>
 </div>
 

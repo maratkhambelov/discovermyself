@@ -153,6 +153,8 @@ function rebuildTree(container, list, position) {
         })
 
         const fieldNameWindow = document.createElement('span')
+        const windowRatingEl = document.createElement('span');
+        const windowWrapSpan = document.createElement('div');
         const spanFieldEl = itemEl.querySelector('[data-id="text"]')
 
         spanFieldEl.addEventListener('click', event => {
@@ -163,8 +165,12 @@ function rebuildTree(container, list, position) {
             if(showWindow !== true && moveMode != true) {
                 fieldNameWindow.innerHTML = ''
                 windowEl.classList.add('show');
+                windowWrapSpan.classList.add('window__wrap-span');
+                windowWrapSpan.style.display = "flex";
+                windowWrapSpan.style.flexDirection = "column";
                 fieldNameWindow.textContent = event.currentTarget.textContent;
                 fieldNameWindow.id = 'fieldnamewindow';
+                windowRatingEl.classList.add('window__span-rating');
                 // addTaskBtn.addEventListener('click', event => {
                 //     const nameFieldEl = fieldNameWindow.textContent
                 //     const taskNameEl = inputTaskEl.value;
@@ -186,8 +192,9 @@ function rebuildTree(container, list, position) {
                 windowGroupEl.appendChild(windowSpanInfo)
                 windowGroupEl.appendChild(inputTaskEl);
                 windowGroupEl.appendChild(addTaskBtn)
-                windowGroupEl.appendChild(fieldNameWindow)
-
+                windowWrapSpan.appendChild(fieldNameWindow);
+                windowWrapSpan.appendChild(windowRatingEl);
+                windowGroupEl.appendChild(windowWrapSpan)
                 windowGroupEl.appendChild(windowTaskListEl)
                 const nameFieldEl = spanFieldEl.textContent // возможно ошибка, здесь дублер
 
@@ -329,10 +336,15 @@ function rebuildTree(container, list, position) {
 //персобирает DOM дерево внутри модального окна
 
 function rebuildTreeWindow (container, list, namefield) {
+
     container.innerHTML = '';
+    const windowRatingEl = document.querySelector('.window__span-rating');
+
     const index = list.storage.items.findIndex(item => item.name === namefield);
     const ulTaskEl = document.createElement('ul');
     ulTaskEl.className = "window__ul-list"
+    windowRatingEl.textContent = list.storage.items[index].rating;
+    // windowRatingEl.style.
     container.appendChild(ulTaskEl);
 
     list.storage.items[index].fieldtasks.forEach(item => {
@@ -357,6 +369,9 @@ function rebuildTreeWindow (container, list, namefield) {
         }
         btnDone.addEventListener('click', event => {
             fieldList.changedone(index, item);
+            // console.log(list.storage.items[index]);
+
+            windowRatingEl.textContent = list.storage.items[index].rating
             rebuildTree(commonDivEl, fieldList);
             btnDone.style.visibility = 'hidden';
             liTaskEl.style.backgroundColor = 'rgba(192,192,192, 0.2)';

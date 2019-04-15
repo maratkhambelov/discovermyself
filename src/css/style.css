@@ -292,7 +292,7 @@
     border-right: solid 1px gray;
     display: flex;
     justify-content: space-between;
-    border-radius: 4px;
+    border-radius: 5px;
 }
 .window__li:first-child {
     border-top: 1px solid gray;

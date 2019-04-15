@@ -339,7 +339,7 @@ function rebuildTreeWindow (container, list, namefield) {
         const liTaskEl = document.createElement('li');
         liTaskEl.innerHTML = `<span>${item.nametask}</span>
          <div class="task__group-btn">
-         <button data-id="done" class="btn__task-done btn-outline-success btn-sm task_btn">Выполнено</button>
+         <button data-id="done" class="btn__task-done btn-outline-success btn-sm task_btn">&#10003;</button>
          <button data-id="removetask" class="btn__task-remove btn-outline-danger btn-sm task_btn">X</button>
          </div>`;
 
@@ -380,11 +380,13 @@ function rebuildTreeWindow (container, list, namefield) {
             let bounding = target.getBoundingClientRect();
             let offset = bounding.y + (bounding.height/2);
             if( event.clientY - offset > 0 ) {
-                target.style['border-bottom'] = 'dashed 4px blue';
-                target.style['border-top'] = '';
+                target.style.borderBottom = 'solid 4px blue';
+                // target.style.boxShadow = "5 5 12px gray";
+                target.style.borderTop = '';
             } else {
-                target.style['border-top'] = 'dashed 4px red';
-                target.style['border-bottom'] = '';
+                target.style.borderTop = 'solid 4px blue';
+                // target.style.boxShadow = "0 0 10px gray";
+                target.style.borderBottom = '';
             }
         });
         document.addEventListener('dragend', function (event) {
@@ -405,29 +407,27 @@ function rebuildTreeWindow (container, list, namefield) {
                 target.style['border-bottom'] = '';
                 const nameFieldToShow = document.querySelector('#fieldnamewindow')
                 console.log(nameFieldToShow.textContent)
-                console.dir(draggingLi)
-                console.log(draggingLi.textContent)
+                console.dir(draggingLi.firstElementChild.textContent)
+                console.log(draggingLi.firstElementChild.textContent)
                 console.dir(e.target.nextSibling)
                 if(e.target.nextSibling !== null) {
-                    fieldList.childrenreplace(draggingLi.textContent, e.target.nextSibling.textContent, nameFieldToShow.textContent)
+                    fieldList.childrenreplace(draggingLi.firstElementChild.textContent, e.target.nextSibling.firstElementChild.textContent, nameFieldToShow.textContent)
                     target.parentNode.insertBefore(draggingLi, e.target.nextSibling);
                 } else {
-
-                    fieldList.childrenreplace(draggingLi.textContent, draggingLi.textContent, nameFieldToShow.textContent);
-
+                    fieldList.childrenreplace(draggingLi.firstElementChild.textContent, draggingLi.firstElementChild.textContent, nameFieldToShow.textContent);
                     target.parentNode.appendChild(draggingLi);
                 }
             } else if( target.style['border-top'] !== '' ){
                 target.style['border-top'] = '';
                 const nameFieldToShow = document.querySelector('#fieldnamewindow')
-                fieldList.childrenreplace(draggingLi.textContent, e.target.textContent, nameFieldToShow.textContent)
+                fieldList.childrenreplace(draggingLi.firstElementChild.textContent, e.target.firstElementChild.textContent, nameFieldToShow.textContent)
                 target.parentNode.insertBefore(draggingLi, e.target);
 
             }
         })
 
 function getLi(target) {
-    while ( target.nodeName.toLowerCase() != 'li' && target.nodeName.toLowerCase() != 'body' ) {  //возможно ошибка
+    while ( target.nodeName.toLowerCase() != 'li' && target.nodeName.toLowerCase() != 'body' ) {
         target = target.parentNode;
     }
     if ( target.nodeName.toLowerCase() == 'body' ) {

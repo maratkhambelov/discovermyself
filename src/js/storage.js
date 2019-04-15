@@ -79,7 +79,8 @@ export class LocalStorage {
         this.save();
     }
     childrenreplace(itemNew, itemOld, namefield) {
-        console.log(itemNew, itemOld)
+        console.log(itemNew)
+        console.log(itemOld)
         const index = this.items.findIndex(item => item.name === namefield);
         if (index !== -1) {
             const objField = this.items[index]
@@ -92,19 +93,19 @@ export class LocalStorage {
             const indexItemOld = objField.fieldtasks.indexOf(itemOldFound);
             console.log(indexItemNew)
             console.log(indexItemOld)
+            // if(indexItemNew === indexItemOld) {
+            //     const itemSpliced = this.items[index].fieldtasks.splice(indexItemNew, 1);
+            //     this.items[index].fieldtasks.push(itemSpliced);
+            // }
             if(indexItemNew > indexItemOld) {
                 const itemSpliced = this.items[index].fieldtasks.splice(indexItemNew, 1);
                 console.log(this.items)
-
                 console.log(itemSpliced[0]);
-
                 const newArrayAfterSplice = this.items[index].fieldtasks.splice(indexItemOld, 0, itemSpliced[0]);
             } else {
                 const itemSpliced = this.items[index].fieldtasks.splice(indexItemNew, 1);
                 console.log(this.items)
-
                 console.log(itemSpliced[0]);
-
                 const newArrayAfterSplice = this.items[index].fieldtasks.splice(indexItemOld - 1, 0, itemSpliced[0]);
             }
 

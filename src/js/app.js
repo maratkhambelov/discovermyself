@@ -337,7 +337,6 @@ function rebuildTreeWindow (container, list, namefield) {
         const nameFieldInWindow = document.createElement('span');
         nameFieldInWindow.textContent = `${list.storage.items[index]}`
         const liTaskEl = document.createElement('li');
-        console.log(index)
         liTaskEl.innerHTML = `<span>${item.nametask}</span>
          <div class="task__group-btn">
          <button data-id="done" class="btn__task-done btn-outline-success btn-sm task_btn">Выполнено</button>
@@ -406,14 +405,21 @@ function rebuildTreeWindow (container, list, namefield) {
                 target.style['border-bottom'] = '';
                 const nameFieldToShow = document.querySelector('#fieldnamewindow')
                 console.log(nameFieldToShow.textContent)
+                console.dir(draggingLi)
                 console.log(draggingLi.textContent)
-                console.log(e.target.nextSibling.textContent)
-                //TODO: проверка if e.target.nextSibling != null
-                fieldList.childrenreplace(draggingLi.textContent, e.target.nextSibling.textContent, nameFieldToShow.textContent)
-                target.parentNode.insertBefore(draggingLi, e.target.nextSibling);
+                console.dir(e.target.nextSibling)
+                if(e.target.nextSibling !== null) {
+                    fieldList.childrenreplace(draggingLi.textContent, e.target.nextSibling.textContent, nameFieldToShow.textContent)
+                    target.parentNode.insertBefore(draggingLi, e.target.nextSibling);
+                } else {
+
+                    fieldList.childrenreplace(draggingLi.textContent, draggingLi.textContent, nameFieldToShow.textContent);
+
+                    target.parentNode.appendChild(draggingLi);
+                }
             } else if( target.style['border-top'] !== '' ){
                 target.style['border-top'] = '';
-                const nameFieldToShow = document.querySelector('#fieldtoshow')
+                const nameFieldToShow = document.querySelector('#fieldnamewindow')
                 fieldList.childrenreplace(draggingLi.textContent, e.target.textContent, nameFieldToShow.textContent)
                 target.parentNode.insertBefore(draggingLi, e.target);
 

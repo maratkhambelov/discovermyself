@@ -200,6 +200,7 @@ function rebuildTree(container, list, position) {
         });
 
         addTaskBtn.addEventListener('click', event => {
+
             const nameFieldEl = fieldNameWindow.textContent
             addTask();
             rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl);
@@ -214,6 +215,7 @@ function rebuildTree(container, list, position) {
             }
         });
         function addTask() {
+            windowSpanInfo.textContent = '';
             const nameFieldEl = fieldNameWindow.textContent
             const taskNameEl = inputTaskEl.value;
             if(taskNameEl === '') {

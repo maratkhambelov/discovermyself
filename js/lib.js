@@ -1,10 +1,8 @@
 export class Field {
-    constructor(name, rating, coordx, coordy) {
+    constructor(name, rating) {
         this.name = name;
         this.rating = 0;
         this.id = 0;
-        // this.coordx = 0;
-        // this.coordy = 0;
         this.fieldtasks = [];
     }
 }

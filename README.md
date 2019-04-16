@@ -1,1 +1,1 @@
-# [SelfExplorer GH Pages](https://maratkhambelov.github.io/purchaseCalculator/)
+# [SelfExplorer GH Pages](https://maratkhambelov.github.io/discovermyself/)

@@ -395,12 +395,13 @@ function rebuildTreeWindow (container, list, namefield) {
             e.preventDefault();
             let target = getLi(e.target);
 
+
             if( target.style['border-bottom'] !== '' ) {
                 target.style['border-bottom'] = '';
                 const nameFieldToShow = document.querySelector('#fieldnamewindow')
-                if(e.target.nextSibling !== null) {
-                    fieldList.childrenreplace(draggingLi.firstElementChild.textContent, e.target.nextSibling.firstElementChild.textContent, nameFieldToShow.textContent)
-                    target.parentNode.insertBefore(draggingLi, e.target.nextSibling);
+                if(target.nextSibling !== null) {
+                    fieldList.childrenreplace(draggingLi.firstElementChild.textContent, target.nextSibling.firstElementChild.textContent, nameFieldToShow.textContent)
+                    target.parentNode.insertBefore(draggingLi, target.nextSibling);
                 } else {
                     fieldList.childrenreplace(draggingLi.firstElementChild.textContent, draggingLi.firstElementChild.textContent, nameFieldToShow.textContent);
                     target.parentNode.appendChild(draggingLi);
@@ -408,17 +409,17 @@ function rebuildTreeWindow (container, list, namefield) {
             } else if( target.style['border-top'] !== '' ){
                 target.style['border-top'] = '';
                 const nameFieldToShow = document.querySelector('#fieldnamewindow')
-                fieldList.childrenreplace(draggingLi.firstElementChild.textContent, e.target.firstElementChild.textContent, nameFieldToShow.textContent)
-                target.parentNode.insertBefore(draggingLi, e.target);
+                fieldList.childrenreplace(draggingLi.firstElementChild.textContent, target.firstElementChild.textContent, nameFieldToShow.textContent)
+                target.parentNode.insertBefore(draggingLi, target);
 
             }
         })
 
 function getLi(target) {
-    while ( target.nodeName.toLowerCase() != 'li' && target.nodeName.toLowerCase() != 'body' ) {
+    while (target.nodeName.toLowerCase() != 'li' && target.nodeName.toLowerCase() != 'body' ) {
         target = target.parentNode;
     }
-    if ( target.nodeName.toLowerCase() == 'body' ) {
+    if (target.nodeName.toLowerCase() == 'body' ) {
         return false;
     } else {
         return target;

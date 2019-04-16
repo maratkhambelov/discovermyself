@@ -99,7 +99,6 @@ function rebuildTree(container, list, position) {
 
             }, 85)
 
-            // setTimeout(changeRatingDOM(ratingSpanEl, rating), 5500)
         });
 
 
@@ -133,13 +132,11 @@ function rebuildTree(container, list, position) {
         closeBtn.addEventListener('click', (event) => {
             windowEl.classList.remove('show');
             showWindow = false;
-            // windowEl.removeChild(windowGroupEl); // убрал, так как оно вроде не используется
         });
         document.body.addEventListener('keydown', (event) => {
             if(event.key === 'Escape') {
                 windowEl.classList.remove('show');
                 showWindow = false;
-                // windowEl.removeChild(windowGroupEl); // убрал, так как оно вроде не используется
             }
         });
 
@@ -171,21 +168,7 @@ function rebuildTree(container, list, position) {
                 fieldNameWindow.textContent = event.currentTarget.textContent;
                 fieldNameWindow.id = 'fieldnamewindow';
                 windowRatingEl.classList.add('window__span-rating');
-                // addTaskBtn.addEventListener('click', event => {
-                //     const nameFieldEl = fieldNameWindow.textContent
-                //     const taskNameEl = inputTaskEl.value;
-                //
-                //     if(taskNameEl === '') {
-                //         windowSpanInfo.textContent = '';
-                //         windowSpanInfo.textContent = 'Введите название задания';
-                //         return;
-                //     }
-                //
-                //     const taskEl = new FieldTask(taskNameEl);
-                //     fieldList.addtask(nameFieldEl, taskEl);
-                //     console.error(taskEl);
-                //     rebuildTreeWindow(windowTaskListEl, fieldList, nameFieldEl)
-                // });
+
 
                 document.body.appendChild(windowEl)
                 windowEl.appendChild(windowGroupEl)
@@ -232,10 +215,7 @@ function rebuildTree(container, list, position) {
             }
             const taskEl = new FieldTask(taskNameEl);
             const indexField = fieldList.storage.items.findIndex(i => i.name === nameFieldEl);
-            console.log(fieldList.storage.items)
-            console.log(fieldList.storage.items[indexField].fieldtasks)
             const uniqueItem = fieldList.storage.items[indexField].fieldtasks.find(i => i.nametask === taskNameEl);
-            console.log(uniqueItem)
             if(uniqueItem === undefined) {
                 fieldList.addtask(nameFieldEl, taskEl);
             } else {
@@ -344,7 +324,6 @@ function rebuildTreeWindow (container, list, namefield) {
     const ulTaskEl = document.createElement('ul');
     ulTaskEl.className = "window__ul-list"
     windowRatingEl.textContent = list.storage.items[index].rating;
-    // windowRatingEl.style.
     container.appendChild(ulTaskEl);
 
     list.storage.items[index].fieldtasks.forEach(item => {
@@ -369,7 +348,6 @@ function rebuildTreeWindow (container, list, namefield) {
         }
         btnDone.addEventListener('click', event => {
             fieldList.changedone(index, item);
-            // console.log(list.storage.items[index]);
 
             windowRatingEl.textContent = list.storage.items[index].rating
             rebuildTree(commonDivEl, fieldList);
@@ -389,7 +367,6 @@ function rebuildTreeWindow (container, list, namefield) {
             draggingLi = target;
             draggingLi.style.opacity = "0.4"
             event.dataTransfer.setData('text/plain', null);
-            // event.dataTransfer.setDragImage(self.dragging,0,0); //не знаю зачем это нужно
         });
         document.addEventListener('dragover', function (event) {
             event.preventDefault();
@@ -398,11 +375,9 @@ function rebuildTreeWindow (container, list, namefield) {
             let offset = bounding.y + (bounding.height/2);
             if( event.clientY - offset > 0 ) {
                 target.style.borderBottom = 'solid 4px blue';
-                // target.style.boxShadow = "5 5 12px gray";
                 target.style.borderTop = '';
             } else {
                 target.style.borderTop = 'solid 4px blue';
-                // target.style.boxShadow = "0 0 10px gray";
                 target.style.borderBottom = '';
             }
         });
@@ -423,10 +398,6 @@ function rebuildTreeWindow (container, list, namefield) {
             if( target.style['border-bottom'] !== '' ) {
                 target.style['border-bottom'] = '';
                 const nameFieldToShow = document.querySelector('#fieldnamewindow')
-                console.log(nameFieldToShow.textContent)
-                console.dir(draggingLi.firstElementChild.textContent)
-                console.log(draggingLi.firstElementChild.textContent)
-                console.dir(e.target.nextSibling)
                 if(e.target.nextSibling !== null) {
                     fieldList.childrenreplace(draggingLi.firstElementChild.textContent, e.target.nextSibling.firstElementChild.textContent, nameFieldToShow.textContent)
                     target.parentNode.insertBefore(draggingLi, e.target.nextSibling);
@@ -470,7 +441,6 @@ function addField() {
     const nameFieldEl = nameFieldElNoSubstr.substr(0,13)
     const field = new Field(nameFieldEl, 0);
     const uniqueItem = fieldList.storage.items.find(i => i.name === nameFieldEl)
-    console.log(uniqueItem)
     if(uniqueItem === undefined) {
         fieldList.add(field);
     } else {
